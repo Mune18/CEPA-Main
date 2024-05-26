@@ -1,40 +1,57 @@
 .custom-grid {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
 }
 
-.grid-item {
-  width: calc(25% - 20px); /* Adjust according to the number of columns and margin */
-  margin-bottom: 20px; /* Adjust as needed */
+.mat-grid-tile {
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-grid-tile img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+.image-info{
+  margin-left:.5rem;
   text-align: center;
 }
 
-.responsive-image {
-  width: 100%;
-  height: auto;
-}
 
-.image-info {
-  margin-top: 10px;
-}
+/* Adjust styles for smaller screens */
+@media (max-width: 1096px) {
+  .mat-grid-list {
+    width: 100%;
+  }
+  
+  .mat-grid-tile {
+    width: calc(100% / 3); /* Ensure equal width for each tile */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 10px; /* Add some space between tiles */
+  }
 
-.dialog-actions {
-  justify-content: flex-end;
-}
+  .mat-grid-tile img {
+    width: 100%; /* Ensure the image fills the tile horizontally */
+    height: auto; /* Automatically adjust height to maintain aspect ratio */
+    max-width: 100px; /* Set maximum width for consistency */
+    max-height: 100px; /* Set maximum height for consistency */
+    object-fit: contain; /* Ensure the entire image is visible */
+    margin-bottom: 10px; /* Add space between image and text */
+  }
 
-p {
-  margin-left: 0.5rem;
-}
-
-@media screen and (max-width: 600px) {
-  .grid-item {
-    width: calc(50% - 10px); /* 2 columns, adjust margin */
+  .image-info {
+    margin-top: 10px; /* Add space between text and next tile */
   }
 }
 
-@media screen and (max-width: 400px) {
-  .grid-item {
-    width: calc(100% - 10px); /* 1 column, adjust margin */
-  }
-}
+
+
