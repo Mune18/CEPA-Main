@@ -14,16 +14,23 @@ body{
     opacity: 1;
     z-index: -1;
   }
-  form {
-    background-color:aliceblue;
+  .container {
     max-width: 350px;
-    height: 400px;
     margin: 0 auto;
     padding: 35px;
-    border: 1px solid #000000;
+    border: 1px solid #000;
     border-radius: 5px;
+    background-color: aliceblue;
     margin-top: 140px;
+    text-align: center;
   }
+
+  form {
+    text-align: left;
+    height: 400px;
+    background-color:aliceblue;
+  }
+  
   h2 {
     margin-top: 30px;
     margin-bottom: 30px ;

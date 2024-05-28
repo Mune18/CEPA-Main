@@ -80,8 +80,7 @@ mat-sidenav {
   transition: 0.2s linear;
 }
 
-.nav-list-item:hover,
-.logout-item:hover {
+.nav-list-item:hover{
   background-color: #4070f4;
   border-radius: 8px;
   margin: 0 5px; /* Adjusted margin */

@@ -33,35 +33,45 @@ export class EventdetailsComponent {
     private dialogRef: MatDialogRef<EventdetailsComponent>,
     private dataService: DataService,
     private formBuilder: FormBuilder,
-    private dateValidator: DateValidator, 
+    private dateValidator: DateValidator,
     private snackBar: MatSnackBar,
-    private qrCodeService: QRCodeService // Inject QRCodeService
-  ) {  
-    this.updateForm = this.formBuilder.group({ 
-    event_name: [, Validators.required],
-    event_date: [, [Validators.required, DateValidator.notPastDate(this.snackBar)]], 
-    event_location: [, Validators.required],
-    organizer: [, Validators.required],
-    description: [, Validators.required]
-  });
-  this.dataSource = new MatTableDataSource(this.attendanceData);
-}
+    private qrCodeService: QRCodeService
+  ) {
+    // Initialize form with current event data
+    this.updateForm = this.formBuilder.group({
+      event_name: [data.event_name || '', Validators.required],
+      event_date: [data.event_date || '', [Validators.required, DateValidator.notPastDate(this.snackBar)]],
+      event_location: [data.event_location || '', Validators.required],
+      organizer: [data.organizer || '', Validators.required],
+      description: [data.description || '', Validators.required]
+    });
+    this.dataSource = new MatTableDataSource(this.attendanceData);
+  }
+  
 
-updateEventDetails() {
-  if (this.updateForm.valid) {
-    const updatedEventData = this.updateForm.value;
+  updateEventDetails() {
+    const updatedEventData = { ...this.data }; // Start with the existing data
+    for (const key in this.updateForm.controls) {
+      if (this.updateForm.controls[key].dirty) {
+        updatedEventData[key] = this.updateForm.controls[key].value;
+      }
+    }
+  
+    // Send the updated data
     this.dataService.updateEventDetails(this.data.event_id, updatedEventData).subscribe(
       (response: any) => {
         console.log('Event details updated successfully:', response);
-        this.data = updatedEventData;
+        // Update local data with updated fields
+        for (const key in updatedEventData) {
+          this.data[key] = updatedEventData[key];
+        }
       },
       error => {
         console.error('Failed to update event details:', error);
       }
     );
-  } else {
-  }
-}
+  }  
+
 
 deleteEvent() {
   if (confirm('Are you sure you want to delete this event?')) {

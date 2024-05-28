@@ -34,17 +34,15 @@ hr {
 }
 
 .container {
-  --box-per-row: 2;
-  --gap: 2px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  --gap: 2px; /* Gap between boxes */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(325px, 1fr)); /* Responsive columns with a minimum size */
   gap: var(--gap);
   padding: 12px;
-  width: auto; 
+  width: auto;
   overflow-y: auto;
-  margin-right: 5px;
-  height: auto; 
+  margin: 30px 0 0 15px;
+  height: 565px;
 }
 
 .mat-card {
@@ -52,16 +50,15 @@ hr {
   box-shadow: 5px 6px 7px 1px #afadad;
   border-radius: 20px;
   max-width: 360px;
-  width: 345px;
-  height: 245px;
+  width: 100%; /* Changed from fixed width to full width */
+  height: auto; /* Allow height to adjust based on content */
   background-color: white;
   border: 1px solid #ccc;
   padding: 25px;
   box-sizing: border-box;
-  margin-left: 20px;
-  margin-right: 1px;
-  margin-bottom: 30px;
+  margin: 15px;
 }
+
 
 .mat-card h1 {
   text-align-last: left;
@@ -145,6 +142,7 @@ hr {
       --box-per-row: 1;
       justify-content: center !important;
       height: 75vh;
+      margin: 5px 0 0 15px;
     }
   
     .mat-card {
@@ -161,5 +159,5 @@ hr {
       margin-left: 0;
       margin-bottom: 10px;
   }
-  }
+}
 

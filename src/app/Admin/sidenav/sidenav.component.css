@@ -1,6 +1,5 @@
 .mat-sidenav-container {
   height: 100vh;
-  position: relative; /* Added position relative */
 }
 
 mat-sidenav-content {
@@ -24,15 +23,6 @@ mat-sidenav-content {
   z-index: -1;
 }
 
-mat-toolbar{
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  height: 10vh;
-  max-height: 10vh;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
 .mat-sidenav {
   background-color: whitesmoke;
   width: 300px;
@@ -42,6 +32,10 @@ mat-toolbar{
   display: block;
   margin: 20px auto;
   width: 70%;
+}
+
+.mat-mdc-list-base {
+  display: block;
 }
 
 .side-toggle {
@@ -69,7 +63,6 @@ mat-toolbar{
 .mat-sidenav-content {
   flex: 1;
   overflow-y: auto;
-  margin-right: -16px; /* Adjust scrollbar width */
 }
 
 .side-nav-content {
@@ -142,5 +135,15 @@ mat-toolbar{
 }
   mat-card{
     width: 80px !important;
+  }
+  .datetime-container i {
+    font-size: 1rem; 
+    margin-right: 0.5rem;
+  }
+  .datetime-container span {
+    font-size: 1rem; 
+  }
+  .mat-toolbar{
+    padding: 15px 0px 15px 15px;
   }
 }
