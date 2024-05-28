@@ -210,4 +210,10 @@ class Get extends GlobalMethods{
             return array('error' => 'Database error: ' . $e->getMessage());
         }
     }
+
+    public function get_feedback_data() {
+        $stmt = $this->pdo->prepare("SELECT `id`, `q1_answer`, `q2_answer`, `q3_answer`, `q4_answer`, `q5_answer`, `feedback`, `created_at` FROM `feedback`");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

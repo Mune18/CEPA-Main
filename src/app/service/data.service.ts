@@ -130,6 +130,13 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}getparticipant&name=${name}`);
   }
 
+  // AdminFeedbackService Methods
+  getFeedbackData(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}getfeedbackdata`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   // Error Handling
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';

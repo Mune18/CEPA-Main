@@ -110,6 +110,10 @@
                     echo json_encode($get->get_events_with_participant_counts());
                     break;
 
+                case "getfeedbackdata":
+                    echo json_encode($get->get_feedback_data()); // Call method to fetch feedback data
+                    break;
+
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";

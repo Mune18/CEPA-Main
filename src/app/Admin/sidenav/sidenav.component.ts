@@ -75,9 +75,9 @@ export class SidenavComponent implements OnDestroy{
     this.selectedNavItem = 'mailer';
   }
   
-  navigateToAboutUs() {
-    this.router.navigate(['admin/AboutUs']);
-    this.selectedNavItem = 'AboutUs';
+  navigateToFeedback() {
+    this.router.navigate(['admin/feedback']);
+    this.selectedNavItem = 'feedback';
   }
 
   redirectToAdminLogin() {

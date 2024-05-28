@@ -13,6 +13,7 @@ import { UsersidenavComponent } from './User/usersidenav/usersidenav.component';
 import { SearchparticipantComponent } from './User/searchparticipant/searchparticipant.component';
 import { FeedbackComponent } from './User/feedback/feedback.component';
 import { AdminAuthGuard } from './service/login/auth.guard';
+import { AdminFeedbackComponent } from './Admin/feedback/feedback.component';
 
 export const routes: Routes = [
   {
@@ -76,6 +77,10 @@ export const routes: Routes = [
       {
         path: 'mailer',
         component: MailerComponent,
+      },
+      {
+        path: 'feedback',
+        component: AdminFeedbackComponent,
       },
     ],
   },

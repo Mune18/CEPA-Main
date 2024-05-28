@@ -68,219 +68,40 @@
     margin-top: 20px;
 }
 
-.events-list {
-    display: flex;
-    flex-direction: column;
-}
-
-.event-item {
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding: 10px;
-    display: flex;
-}
-
-.event-details {
-    display: flex;
+/* Table Styles */
+.events-table {
     width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
 }
 
-.event-column {
-    flex: 1;
-    padding-right: 20px;
-    display: flex;
-    align-items: center;
+.events-table th,
+.events-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
 }
 
-.event-column:last-child {
-    padding-right: 0;
+.events-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
 }
 
-.event-name {
-    font-weight: bold;
-    font-size: 18px;
+.events-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
-.bold-text {
-    font-weight: bold;
-    font-size: 15px;
-}
-
-.date-column {
-    font-weight: bold;
-    margin-top: -33px;
-    margin-left: 320px;
-    flex: 1;
-}
-.location-column {
-    font-weight: bold;
-    margin-top: -33px;
-    margin-left: 625px;
-    flex: 1;
-}
-.organizer-column {
-    font-weight: bold;
-    margin-top: -33px;
-    margin-left: 930px;
-    flex: 1;
+.events-table tbody tr:hover {
+    background-color: #ddd;
 }
 
 /* Media Queries */
-
-/* Small Mobile Devices (Portrait) */
-@media (max-width: 320px) {
-    .heading {
-        font-size: 20px;
-        padding-left: 10px;
-    }
-    .search-bar {
-        width: 90%;
-        margin-left: 10px;
-        margin-top: 10px;
-    }
-    .search-bar input[type="text"] {
-        width: calc(100% - 50px);
-        margin-right: 0;
-    }
-    .container {
-        padding: 20px 10px;
-        max-width: 100%; /* Ensures container is centered */
-        justify-content: center;
-    }
-    .mat-card {
-        left: 0;
-        margin-right: 0;
-        width: 100%;
-    }
-    .mat-card-header {
-        font-size: 16px;
-    }
-    .mat-card-title {
-        font-size: 18px;
-    }
-    .mat-card-content p {
-        font-size: 14px;
-    }
-    .event-name {
-        font-size: 14px;
-    }
-    .bold-text {
-        font-size: 12px;
-    }
-    .event-date,
-    .event-location,
-    .event-organizer {
-        font-size: 12px;
-    }
-    .date-column {
-        text-align: right;
-        margin-top: 10px;
-        margin-right: 20px;
-    }
-}
-
-/* Large Mobile Devices (Portrait) */
-@media (max-width: 480px) {
-    .heading {
-        font-size: 22px;
-        padding-left: 20px;
-    }
-    .search-bar {
-        width: 90%;
-        margin-left: 15px;
-        margin-top: 12px;
-    }
-    .search-bar input[type="text"] {
-        width: calc(100% - 60px);
-        margin-right: 0;
-    }
-    .container {
-        padding: 25px 12px;
-        max-width: 100%; /* Ensures container is centered */
-        justify-content: center;
-    }
-    .mat-card {
-        left: 0;
-        margin-right: 0;
-        width: 100%;
-    }
-    .mat-card-header {
-        font-size: 18px;
-    }
-    .mat-card-title {
-        font-size: 20px;
-    }
-    .mat-card-content p {
-        font-size: 16px;
-    }
-    .event-name {
-        font-size: 16px;
-    }
-    .bold-text {
-        font-size: 14px;
-    }
-    .event-date,
-    .event-location,
-    .event-organizer {
-        font-size: 14px;
-    }
-}
-
-/* Small Tablets (Portrait) */
-@media (max-width: 600px) {
-    .heading {
-        font-size: 24px;
-        padding-left: 25px;
-    }
-    .search-bar {
-        width: 80%;
-        margin-left: 20px;
-        margin-top: 15px;
-    }
-    .search-bar input[type="text"] {
-        width: calc(100% - 70px);
-        margin-right: 0;
-    }
-    .container {
-        padding: 30px 15px;
-        max-width: 100%; /* Ensures container is centered */
-        justify-content: center;
-    }
-    .mat-card {
-        left: 0;
-        margin-right: 0;
-        width: 100%;
-    }
-    .mat-card-header {
-        font-size: 20px;
-    }
-    .mat-card-title {
-        font-size: 22px;
-    }
-    .mat-card-content p {
-        font-size: 18px;
-    }
-    .event-name {
-        font-size: 18px;
-    }
-    .bold-text {
-        font-size: 16px;
-    }
-    .event-date,
-    .event-location,
-    .event-organizer {
-        font-size: 16px;
-    }
-}
-
-/* Large Tablets and Small Laptops (Landscape) */
 @media (max-width: 768px) {
     .heading {
         font-size: 26px;
         padding-left: 30px;
     }
-    .search-bar
-    {
+    .search-bar {
         width: 75%;
         margin-left: 25px;
         margin-top: 18px;
@@ -319,5 +140,4 @@
     .event-organizer {
         font-size: 16px;
     }
-    }
-    
+}

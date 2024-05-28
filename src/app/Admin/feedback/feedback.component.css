@@ -1,0 +1,64 @@
+/* Base Styles */
+.heading {
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 7px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.mat-card {
+    width: 95%;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.mat-card-content {
+    padding: 20px;
+}
+
+.feedback-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.feedback-table th,
+.feedback-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.feedback-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.feedback-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.feedback-table tbody tr:hover {
+    background-color: #ddd;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .heading {
+        font-size: 26px;
+        padding-left: 30px;
+    }
+
+    .mat-card {
+        width: 100%;
+    }
+
+    .mat-card-content {
+        padding: 15px;
+    }
+
+    .feedback-table {
+        font-size: 14px;
+    }
+}
