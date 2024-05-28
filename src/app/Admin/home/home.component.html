@@ -1,44 +1,51 @@
 <body>
     <div>
-        <div class="pie">
-            <h1 class="heading">Overview <i class="fa-solid fa-chart-pie"></i></h1>
-        </div>
-        <hr>
+      <div class="pie">
+        <h1 class="heading">Overview <i class="fa-solid fa-chart-pie"></i></h1>
+      </div>
+      <hr>
     </div>
-    
+  
     <div class="t-container">
-        <div class="centered">
-            <h1 class="rectangle-title1">Most Participated Event</h1>
+      <div class="centered">
+        <h1 class="rectangle-title1">Most Participated Event</h1>
+      </div>
+      <div class="horizontal-container">
+        <div class="centered-item">
+          <h1 class="rectangle-title">Event Name</h1>
+          <h1 class="number">{{ mostParticipatedEvent }}</h1>
         </div>
-        <div class="horizontal-container">
-            <div class="centered-item">
-                <h1 class="rectangle-title">Event Name</h1>
-                <h1 class="number">{{ mostParticipatedEvent }}</h1>
-            </div>
-            <div class="centered-item">
-                <h1 class="rectangle-title">Total Participants</h1>
-                <h1 class="number">{{ mostParticipatedEventCount }}</h1>
-            </div>
+        <div class="centered-item">
+          <h1 class="rectangle-title">Total Participants</h1>
+          <h1 class="number">{{ mostParticipatedEventCount }}</h1>
         </div>
+      </div>
     </div>
-    
+  
     <div class="b-container">
-        <!-- Bar Graph -->
-        <div class="square1">
-            <canvas id="barChart" width="1000px" height="350px"></canvas>
-        </div>
+      <div class="square1">
+        <canvas id="barChart" width="1000px" height="350px"></canvas>
+      </div>
     </div>
-
+  
     <div class="container">
-        <div class="box">
-            <h1 class="box-title">Overall Participants</h1>
-            <br>
-            <h1 class="number1">{{ participantsCount }}</h1>
-        </div>
-        <div class="box">
-            <h1 class="box-title">Total Events</h1>
-            <br>
-            <h1 class="number1">{{ eventsCount }}</h1>
+      <div class="box">
+        <h1 class="box-title">Overall Participants</h1>
+        <br>
+        <h1 class="number1">{{ participantsCount }}</h1>
+      </div>
+      <div class="box">
+        <h1 class="box-title">Total Events</h1>
+        <br>
+        <h1 class="number1">{{ eventsCount }}</h1>
+      </div>
+    </div>
+  
+    <div class="monthly-report-container">
+        <h1 class="monthly-report-title">Monthly Report</h1>
+        <div class="square2">
+            <canvas id="monthlyReportChart" width="1000px" height="350px"></canvas>
         </div>
     </div>
-</body>
+  </body>
+  
