@@ -1,70 +1,109 @@
-body{
-    background-color: #e4e9f7;
-    margin: 0;
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: url('/assets/images/CEPAlogo2-removebg-preview.png');
-    background-size: 300px;
-    background-position: top;
-    background-repeat: no-repeat;
-    opacity: 1;
-    z-index: -1;
-  }
-  .container {
-    max-width: 350px;
-    margin: 0 auto;
-    padding: 35px;
-    border: 1px solid #000;
-    border-radius: 5px;
-    background-color: aliceblue;
-    margin-top: 140px;
-    text-align: center;
-  }
+body {
+  background-color: aliceblue;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('/assets/images/CEPAlogo2-removebg-preview.png');
+  background-size: 300px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Arial', sans-serif;
+}
 
-  form {
-    text-align: left;
-    height: 400px;
-    background-color:aliceblue;
-  }
-  
-  h2 {
-    margin-top: 30px;
-    margin-bottom: 30px ;
-    text-align:center;
-    font-size: 35px;
-  }
-  
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  input[type="text"],
-  input[type="email"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #000000;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-  }
-  
-  button {
-    box-shadow: 5px 6px 7px 1px #afadad;
-    color: white;
-    font-size: 17px;
-    background-color:#4070f4;
-    border-radius: 7px;
-    width:120px;
-    height: 40px;
-    float:right;
-    text-align:center;
-    border: none;
-    margin-top: 20px;
-  }
-  
+.container {
+  max-width: 400px;
+  width: 100%;
+  margin: 20px;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+  margin:  0 0 35px 0;
+}
+
+form {
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus {
+  border-color: #4070f4;
+  outline: none;
+}
+
+button {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4070f4;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #3057d1;
+}
+
+button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #4070f4;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #3057d1;
+}

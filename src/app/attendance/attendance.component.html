@@ -1,12 +1,13 @@
 <body>
   <div class="container">
-    <h2>{{ eventName }}</h2> <!-- Display the event name -->
+    <h2>You are registering for</h2>
+    <h3>{{ eventName }}</h3> <!-- Display the event name prominently -->
     <form [formGroup]="form" (submit)="onSubmit()">
       <div class="form-group">
-        <div class="form-group">
-          <label for="firstName">First Name</label>
-          <input type="text" formControlName="f_name" class="form-control" placeholder="Enter First Name">
-        </div>
+        <label for="firstName">First Name</label>
+        <input type="text" formControlName="f_name" class="form-control" placeholder="Enter First Name">
+      </div>
+      <div class="form-group">
         <label for="lastName">Last Name</label>
         <input type="text" formControlName="l_name" class="form-control" placeholder="Enter Last Name">
       </div>
@@ -21,8 +22,9 @@
       <div class="form-group">
         <label for="phoneNumber">Phone Number</label>
         <input type="text" formControlName="p_number" class="form-control" placeholder="Enter Phone Number">
-        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
       </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+      <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button> <!-- Back button -->
     </form>
   </div>  
 </body>
