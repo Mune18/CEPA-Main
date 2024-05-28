@@ -9,17 +9,19 @@
     <h1 class="heading">Search Participant <i class="fas fa-search"></i></h1>
     <hr style="margin-left:25px;">
     <div class="search-bar">
-        <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" />
-        <button (click)="searchParticipant()">Search</button>
+        <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="searchParticipant()" />
     </div>
-    <div class="container" *ngIf="participant">
-        <div class="mat-card">
+    <div class="container" *ngIf="participants.length > 0">
+        <div *ngFor="let participant of participants" class="mat-card">
             <div class="mat-card-header">
                 <div class="mat-card-title participant-name">{{ participant.first_name }} {{ participant.last_name }}</div>
             </div>
             <hr>
             <div class="mat-card-content">
                 <p><strong>Events Joined:</strong></p>
+                <p class="date-column">Date:</p> <!-- Moved Date: outside the loop -->
+                <p class="location-column">Location:</p> <!-- Moved Date: outside the loop -->
+                <p class="organizer-column">Organizer:</p> <!-- Moved Date: outside the loop -->
                 <br>
                 <div class="events-list">
                     <div class="event-item" *ngFor="let event of participant.events">
@@ -28,17 +30,17 @@
                                 <div class="event-name">{{ event.event_name }}</div>
                             </div>
                             <div class="event-column">
-                                <div class="event-date"><span class="bold-text">Date: </span>{{ event.event_date | date }}</div>
+                                <div class="event-date">{{ event.event_date | date }}</div>
                             </div>
                             <div class="event-column">
-                                <div class="event-location"><span class="bold-text">Location: </span>{{ event.event_location }}</div>
+                                <div class="event-location">{{ event.event_location }}</div>
                             </div>
                             <div class="event-column">
-                                <div class="event-organizer"><span class="bold-text">Organizer: </span>{{ event.organizer }}</div>
+                                <div class="event-organizer">{{ event.organizer }}</div>
                             </div>
                         </div>
                     </div>
-                </div>                                
+                </div>
             </div>
         </div>
     </div>

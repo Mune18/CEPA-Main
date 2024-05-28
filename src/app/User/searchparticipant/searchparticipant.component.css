@@ -7,28 +7,14 @@
     font-size: 30px;
 }
 
-.button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100px;
-    box-shadow: 5px 6px 7px 1px #afadad;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
-
 .search-bar {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-bottom: 20px;
-    margin-left: 50px;
     margin-top: 20px;
     width: 500px;
+    margin-left: 50px;
 }
 
 .search-bar input[type="text"] {
@@ -36,17 +22,7 @@
     border: 1px solid #ccc;
     border-radius: 10px;
     margin-right: 10px;
-    width: 500px;
-}
-
-.search-bar button {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    width: 100%;
 }
 
 .container {
@@ -77,22 +53,19 @@
 }
 
 .mat-card-header {
-    font-size: 22px; /* Increased from default to 22px */
+    font-size: 22px;
 }
 
 .mat-card-title {
-    font-size: 24px; /* Increased from default to 24px */
+    font-size: 24px;
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 20px;
 }
 
-.mat-card-content p {
-    font-size: 20px; /* Increased from default to 20px */
-    margin: 5px 0;
+.mat-card-content {
+    font-size: 20px;
     margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
 }
 
 .events-list {
@@ -115,6 +88,12 @@
 .event-column {
     flex: 1;
     padding-right: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.event-column:last-child {
+    padding-right: 0;
 }
 
 .event-name {
@@ -127,11 +106,23 @@
     font-size: 15px;
 }
 
-.event-date,
-.event-location,
-.event-organizer {
-    margin-top: 5px;
-    font-size: 15px;
+.date-column {
+    font-weight: bold;
+    margin-top: -33px;
+    margin-left: 320px;
+    flex: 1;
+}
+.location-column {
+    font-weight: bold;
+    margin-top: -33px;
+    margin-left: 625px;
+    flex: 1;
+}
+.organizer-column {
+    font-weight: bold;
+    margin-top: -33px;
+    margin-left: 930px;
+    flex: 1;
 }
 
 /* Media Queries */
@@ -142,12 +133,6 @@
         font-size: 20px;
         padding-left: 10px;
     }
-    .button {
-        width: 70px;
-        padding: 5px 10px;
-        bottom: 10px;
-        right: 10px;
-    }
     .search-bar {
         width: 90%;
         margin-left: 10px;
@@ -156,11 +141,6 @@
     .search-bar input[type="text"] {
         width: calc(100% - 50px);
         margin-right: 0;
-    }
-    .search-bar button {
-        width: 50px;
-        padding: 5px;
-        margin-left: 5px;
     }
     .container {
         padding: 20px 10px;
@@ -192,6 +172,11 @@
     .event-organizer {
         font-size: 12px;
     }
+    .date-column {
+        text-align: right;
+        margin-top: 10px;
+        margin-right: 20px;
+    }
 }
 
 /* Large Mobile Devices (Portrait) */
@@ -199,12 +184,6 @@
     .heading {
         font-size: 22px;
         padding-left: 20px;
-    }
-    .button {
-        width: 80px;
-        padding: 6px 12px;
-        bottom: 12px;
-        right: 12px;
     }
     .search-bar {
         width: 90%;
@@ -214,11 +193,6 @@
     .search-bar input[type="text"] {
         width: calc(100% - 60px);
         margin-right: 0;
-    }
-    .search-bar button {
-        width: 50px;
-        padding: 6px;
-        margin-left: 5px;
     }
     .container {
         padding: 25px 12px;
@@ -258,12 +232,6 @@
         font-size: 24px;
         padding-left: 25px;
     }
-    .button {
-        width: 85px;
-        padding: 7px 14px;
-        bottom: 15px;
-        right: 15px;
-    }
     .search-bar {
         width: 80%;
         margin-left: 20px;
@@ -272,11 +240,6 @@
     .search-bar input[type="text"] {
         width: calc(100% - 70px);
         margin-right: 0;
-    }
-    .search-bar button {
-        width: 60px;
-        padding: 7px;
-        margin-left: 5px;
     }
     .container {
         padding: 30px 15px;
@@ -316,13 +279,8 @@
         font-size: 26px;
         padding-left: 30px;
     }
-    .button {
-        width: 90px;
-        padding: 8px 16px;
-        bottom: 18px;
-        right: 18px;
-    }
-    .search-bar {
+    .search-bar
+    {
         width: 75%;
         margin-left: 25px;
         margin-top: 18px;
@@ -330,11 +288,6 @@
     .search-bar input[type="text"] {
         width: calc(100% - 70px);
         margin-right: 0;
-    }
-    .search-bar button {
-        width: 60px;
-        padding: 8px;
-        margin-left: 5px;
     }
     .container {
         padding: 35px 18px;
@@ -366,4 +319,5 @@
     .event-organizer {
         font-size: 16px;
     }
-}
+    }
+    

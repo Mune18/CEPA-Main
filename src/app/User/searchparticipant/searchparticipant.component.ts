@@ -15,7 +15,7 @@ import { DataService } from '../../service/data.service';
 })
 export class SearchparticipantComponent {
   searchQuery: string = '';
-  participant: any = null;
+  participants: any[] = [];
 
   constructor(
     private dataService: DataService,
@@ -24,28 +24,17 @@ export class SearchparticipantComponent {
 
   searchParticipant() {
     if (this.searchQuery.trim()) {
-      this.dataService.searchParticipant(this.searchQuery).subscribe((data: any) => {
+      this.dataService.searchParticipant(this.searchQuery).subscribe((data: any[]) => {
         if (data.length > 0) {
-          this.participant = data[0];
-          console.log(this.participant); // Log the participant data for debugging
-          
-          // Check and log the event dates if they exist
-          if (this.participant.events && this.participant.events.length > 0) {
-            this.participant.events.forEach((event: any) => {
-              if (event.event_date) {
-                console.log('Event Date:', event.event_date);
-              } else {
-                console.log('Event Date not found in this event');
-              }
-            });
-          } else {
-            console.log('No events found for this participant');
-          }
+          this.participants = data;
+          console.log(this.participants); // Log the participants data for debugging
         } else {
-          this.participant = null;
-          this.openSnackBar('No participant found');
+          this.participants = [];
+          this.openSnackBar('No participants found');
         }
       });
+    } else {
+      this.participants = [];
     }
   }
   
