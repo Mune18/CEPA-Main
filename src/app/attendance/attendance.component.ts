@@ -29,6 +29,7 @@ export class AttendanceComponent implements OnInit {
 
     this.route.paramMap.subscribe(params => {
         this.eventId = params.get('eventId')!;
+        console.log('Event ID:', this.eventId); // Log eventId
         this.fetchEventDetails(this.eventId);
     });
   }
@@ -46,8 +47,8 @@ export class AttendanceComponent implements OnInit {
   fetchEventDetails(eventId: string) {
     this.dataService.getEventDetails(eventId).subscribe(
         (eventDetails: any) => {
-            // console.log('Event Details:', eventDetails);
-            const firstEvent = eventDetails?.payload?.[0]; // Access the first event if exists
+            console.log('Event Details:', eventDetails); // Log event details
+            const firstEvent = eventDetails?.payload?.find((event: any) => event.event_id === parseInt(eventId));
             if (firstEvent && 'event_name' in firstEvent) {
                 this.eventName = firstEvent.event_name;
             } else {
@@ -59,61 +60,43 @@ export class AttendanceComponent implements OnInit {
             // Handle error, show error message, etc.
         }
     );
-  }
+}
 
-  onSubmit() {
+
+onSubmit() {
     if (this.form.invalid) {
-        this.openSnackBar('Please ensure all fields are filled out correctly.');
-        return;
+      this.openSnackBar('Please ensure all fields are filled out correctly.');
+      return;
     }
-
+  
     const data = {
-        event_id: this.eventId,
-        l_name: this.form.value.l_name,
-        f_name: this.form.value.f_name,
-        address: this.form.value.address,
-        email: this.form.value.email,
-        p_number: this.form.value.p_number,
-        attendance_date: new Date().toISOString().slice(0, 10)
+      event_id: this.eventId,
+      l_name: this.form.value.l_name,
+      f_name: this.form.value.f_name,
+      address: this.form.value.address,
+      email: this.form.value.email,
+      p_number: this.form.value.p_number,
+      attendance_date: new Date().toISOString().slice(0, 10)
     };
-
-    // Check if attendance has already been submitted for this event
-    this.dataService.getAttendanceForEvent(this.eventId).subscribe(
-        (response: any) => {
-            // console.log('Attendance check response:', response);
-            if (response && response.status === 'success' && response.data.attendance_exists) {
-                this.openSnackBar('You have already registered for this event.');
-            } else {
-                // Proceed with submitting attendance
-                this.submitAttendance(data);
-            }
-        },
-        error => {
-            console.error('Failed to check attendance:', error);
-            this.openSnackBar('Failed to check attendance');
-        }
-    );
-}
-
-submitAttendance(data: any) {
+  
     this.dataService.submitAttendance(data).subscribe(
-        response => {
-            // console.log('Response:', response); // Log the response for debugging
-            if (response && response.status === 'success') {
-                console.log('Attendance submitted successfully:', response);
-                this.form.reset();
-                this.openSnackBar('Attendance submitted successfully');
-            } else {
-                // console.error('Failed to submit attendance:', response);
-                this.openSnackBar('You have already registered for this event.');
-            }
-        },
-        error => {
-            console.error('Failed to submit attendance:', error);
-            this.openSnackBar('Failed to submit attendance');
+      response => {
+        // console.log('Attendance submitted successfully:', response);
+        this.form.reset(); // Reset the form
+        this.openSnackBar('Attendance submitted successfully'); // Display success message
+      },
+      error => {
+        // console.error('Failed to submit attendance:', error);
+        if (error === "Attendance for this event has already been submitted.") {
+          this.openSnackBar(error);
+          this.form.reset();
+        } else {
+          this.openSnackBar('Failed to submit attendance');
         }
+      }
     );
-}
+  }  
+
 
 openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {

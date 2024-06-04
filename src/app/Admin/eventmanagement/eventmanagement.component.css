@@ -51,7 +51,7 @@
     border-radius: 20px;
     max-width: 360px;
     width: 100%; /* Changed from fixed width to full width */
-    height: auto; /* Allow height to adjust based on content */
+    height: 250px; /* Allow height to adjust based on content */
     background-color: white;
     border: 1px solid #ccc;
     padding: 25px;

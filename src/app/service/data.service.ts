@@ -39,7 +39,15 @@ export class DataService {
 
   // AttendanceService Methods
   submitAttendance(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}attendance`, data);
+    return this.http.post<any>(`${this.apiUrl}attendance`, data).pipe(
+      catchError(error => {
+        if (error.status === 409) {
+          return throwError("Attendance for this event has already been submitted.");
+        } else {
+          return throwError("Failed to submit attendance");
+        }
+      })
+    );
   }
 
   getAttendanceForEvent(eventId: string): Observable<any> {

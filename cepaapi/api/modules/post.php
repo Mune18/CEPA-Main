@@ -321,20 +321,7 @@ public function sendEmail($data, $template = 'default') {
     public function submit_attendance($data) {
         // Check if participant exists, if not, insert them
         $participantId = $this->insertParticipant($data);
-
-        // Check if the participant has already registered for the event
-        $sqlCheck = "SELECT COUNT(*) FROM attendance WHERE event_id = ? AND email = ?";
-        $statementCheck = $this->pdo->prepare($sqlCheck);
-        $statementCheck->execute([$data->event_id, $data->email]);
-        $alreadyRegistered = $statementCheck->fetchColumn();
-
-        if ($alreadyRegistered > 0) {
-            return json_encode([
-                "status" => "error",
-                "message" => "You have already registered for this event."
-            ]);
-        }
-
+    
         // Construct the SQL query to insert attendance data
         $sql = "INSERT INTO attendance (event_id, participant_id, attendance_date, l_name, f_name, address, email, p_number) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
