@@ -1,0 +1,68 @@
+<body>
+  <div class="nav">
+    <img src="assets/images/gcLogo.png" alt="GCLogo">
+    <img src="assets/images/ccsLogo.png" alt="CCSLogo">
+    <img src="assets/images/CEPAlogo2-removebg-preview.png" alt="CEPAnav">
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="column llogo">
+        <img src="assets/images/logo/CEPALogo-removebg-preview.png" alt="Logo">
+      </div>
+      <div class="column box form-box">
+        <header *ngIf="isLogin">User Login</header>
+        <header *ngIf="!isLogin">Sign Up</header>
+
+        <form *ngIf="isLogin" class="login-form" (ngSubmit)="onSubmitLogin($event)">
+          <div class="field input">
+            <input type="text" name="idnumber" id="login-idnumber" placeholder="ID Number" autocomplete="off" required>
+          </div>
+          <div class="field input">
+            <input type="password" name="password" id="login-password" placeholder="Password" autocomplete="off" required>
+          </div>
+          <div class="field">
+            <button type="submit" class="btn">Login</button>
+          </div>
+        </form>
+
+        <form *ngIf="!isLogin" class="signup-form2" id="signup-form" (ngSubmit)="onSubmitSignUp($event)">
+          <div class="field input">
+            <input type="text" name="firstname" id="signup-firstname" placeholder="First Name" autocomplete="off" required>
+          </div>
+          <div class="field input">
+            <input type="text" name="lastname" id="signup-lastname" placeholder="Last Name" autocomplete="off" required>
+          </div>
+          <div class="field input">
+            <input type="text" name="idnumber" id="signup-idnumber" placeholder="ID Number" autocomplete="off" required>
+          </div>
+          <div class="field input">
+            <input type="email" name="email" id="signup-email" placeholder="Email" autocomplete="off" required>
+          </div>
+          <div class="field input">
+            <input type="{{ showPassword ? 'text' : 'password' }}" name="password" id="signup-password" placeholder="Password" autocomplete="off" required [(ngModel)]="password">
+          </div>
+          <div class="field input">
+            <input type="{{ showPassword ? 'text' : 'password' }}" name="retypepassword" id="signup-retypepassword" placeholder="Retype Password" autocomplete="off" required [(ngModel)]="retypePassword" [ngClass]="{'password-mismatch': retypePassword && !passwordsMatch(password, retypePassword)}">
+            <button type="button" (click)="togglePasswordVisibility()" class="toggle-password-btn">{{ showPassword ? 'Hide' : 'Show' }}</button>
+          </div>          
+          <div class="field input">
+            <select name="gender" id="signup-gender" required>
+              <option value="" disabled selected>Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Prefer Not To Say</option>
+            </select>
+          </div>
+          <div class="field">
+            <button type="submit" class="btn">Register</button>
+          </div>
+        </form>
+
+        <div class="signup-link">
+          <p *ngIf="isLogin">Don't have an account? <a href="#" (click)="toggleForm($event)">Sign up now</a></p>
+          <p *ngIf="!isLogin">Already have an account? <a href="#" (click)="toggleForm($event)">Login now</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

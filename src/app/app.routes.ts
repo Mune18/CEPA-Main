@@ -14,12 +14,17 @@ import { SearchparticipantComponent } from './User/searchparticipant/searchparti
 import { FeedbackComponent } from './User/feedback/feedback.component';
 import { AdminAuthGuard } from './service/login/auth.guard';
 import { AdminFeedbackComponent } from './Admin/feedback/feedback.component';
+import { UserloginComponent } from './User/userlogin/userlogin.component';
 
 export const routes: Routes = [
   {
     path: 'admin/login',
     component: LoginComponent,
     canActivate: [AdminAuthGuard]
+  },
+  {
+    path: 'user/userlogin',
+    component: UserloginComponent,
   },
   {
     path: 'user',

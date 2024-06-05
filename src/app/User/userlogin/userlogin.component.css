@@ -1,0 +1,176 @@
+.nav {
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav img {
+    max-height: 70px;
+    max-width: 100%;
+    display: block;
+}
+
+.nav img:nth-child(1) {
+    margin-left: 10px;
+}
+
+.nav img:nth-child(2) {
+    margin-left: 10px;
+}
+
+.nav img:nth-child(3) {
+    margin-left: auto;
+}
+
+body {
+    background-color: #e4e9f7;
+    margin: 0;
+}
+
+.container {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    position: relative;
+    margin-top: -90px;
+}
+
+.row {
+    display: inline-flex;
+    justify-content: center;
+}
+
+.column {
+    margin: 10px;
+    align-items: center;
+}
+
+.llogo {
+    display: flex;
+    align-items: center;
+}
+
+.llogo img {
+    max-width: 100%;
+    height: 90vh;
+}
+
+.box {
+    background: #fdfdfd;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 25px 25px;
+    border-radius: 40px;
+    box-shadow: 0 0 128px 0 rgba(0, 0, 0, 0.1),
+                0 32px 64px -48px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-box {
+    height: 100%;
+    width: 350px;
+    margin: auto 0 auto 250px;
+    position: relative;
+}
+
+form {
+    width: 90%;
+}
+
+.hidden-form {
+    opacity: 0;
+    transform: translateY(-20px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.form-box header {
+    font-size: 25px;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e6e6e6;
+    margin-bottom: 10px;
+}
+
+.form-box form .field {
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
+
+.form-box form .field input,
+.form-box form .field select {
+    height: 40px;
+    width: 90%;
+    font-size: 16px;
+    padding: 0 10px;
+    margin: auto;
+    border-radius: 5px;
+    background-color: #e4e9f7;
+    border: 1px solid #e4e9f7;
+    outline: none;
+}
+
+.btn {
+    display: inline-block;
+    height: 40px;
+    width: 50%;
+    background: #04AA6D;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    margin-left: 65px;
+    margin-top: 25px;
+    margin-bottom: -1px;
+    padding: 0 30px;
+}
+
+.btn:hover {
+    opacity: 0.82;
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-link a {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #0044cc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+    color: #003399;
+}
+
+.password-mismatch {
+    border-color: red;
+}
+
+.field.input {
+    position: relative;
+}
+
+.toggle-password-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
