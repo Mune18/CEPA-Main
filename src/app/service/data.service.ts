@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class DataService {
-  private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
+  // private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
+  private apiUrl = 'http://localhost/CEPA-Main2/CEPA-Main/cepaapi/api/';
   private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -145,6 +146,12 @@ export class DataService {
     );
   }
 
+  register(user: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}register`, user).pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
+  }
   // Error Handling
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';

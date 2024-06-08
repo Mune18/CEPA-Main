@@ -195,6 +195,17 @@
                     }
                     break;
                 
+                    case 'register':
+                        // Decode the incoming JSON data
+                        $data = json_decode(file_get_contents("php://input"));
+                        // Check if $data is null
+                        if (is_null($data)) {
+                            echo json_encode(["status" => "error", "message" => "Invalid JSON data"]);
+                        } else {
+                            echo json_encode($post->register($data));
+                        }
+                        break;
+                
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";

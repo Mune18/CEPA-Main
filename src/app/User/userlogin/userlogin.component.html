@@ -27,16 +27,16 @@
 
         <form *ngIf="!isLogin" class="signup-form2" id="signup-form" (ngSubmit)="onSubmitSignUp($event)">
           <div class="field input">
-            <input type="text" name="firstname" id="signup-firstname" placeholder="First Name" autocomplete="off" required>
+            <input type="text" name="firstname" id="signup-firstname" placeholder="First Name" autocomplete="off" required [(ngModel)]="firstname">
           </div>
           <div class="field input">
-            <input type="text" name="lastname" id="signup-lastname" placeholder="Last Name" autocomplete="off" required>
+            <input type="text" name="lastname" id="signup-lastname" placeholder="Last Name" autocomplete="off" required [(ngModel)]="lastname">
           </div>
           <div class="field input">
-            <input type="text" name="idnumber" id="signup-idnumber" placeholder="ID Number" autocomplete="off" required>
+            <input type="text" name="idnumber" id="signup-idnumber" placeholder="ID Number" autocomplete="off" required [(ngModel)]="idnumber">
           </div>
           <div class="field input">
-            <input type="email" name="email" id="signup-email" placeholder="Email" autocomplete="off" required>
+            <input type="email" name="email" id="signup-email" placeholder="Email" autocomplete="off" required [(ngModel)]="email">
           </div>
           <div class="field input">
             <input type="{{ showPassword ? 'text' : 'password' }}" name="password" id="signup-password" placeholder="Password" autocomplete="off" required [(ngModel)]="password">
@@ -46,7 +46,7 @@
             <button type="button" (click)="togglePasswordVisibility()" class="toggle-password-btn">{{ showPassword ? 'Hide' : 'Show' }}</button>
           </div>          
           <div class="field input">
-            <select name="gender" id="signup-gender" required>
+            <select name="gender" id="signup-gender" required [(ngModel)]="gender">
               <option value="" disabled selected>Gender</option>
               <option value="male">Male</option>
               <option value="female">Female</option>

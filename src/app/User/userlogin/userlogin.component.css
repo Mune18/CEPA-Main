@@ -174,3 +174,8 @@ form {
     border: none;
     cursor: pointer;
 }
+.mat-snack-bar-container {
+    background: #323232;
+    color: #fff;
+    font-size: 16px;
+  }

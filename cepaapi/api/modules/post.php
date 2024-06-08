@@ -465,4 +465,40 @@ public function sendEmail($data, $template = 'default') {
             return $this->sendPayload(null, "failed", $errmsg, 400);
         }
     }
+    public function register($data) {
+        try {
+            // Check for existing email or ID number
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email OR idnumber = :idnumber");
+            $stmt->execute([
+                ':email' => $data->email,
+                ':idnumber' => $data->idnumber,
+            ]);
+            $existingUser = $stmt->fetch();
+            
+            if ($existingUser) {
+                return ["status" => "error", "message" => "Email or ID number already registered"];
+            }
+            
+            // Hash the password
+            $passwordHash = password_hash($data->password, PASSWORD_BCRYPT);
+            
+            // Insert new user
+            $stmt = $this->pdo->prepare("
+                INSERT INTO users (firstname, lastname, idnumber, email, password, gender)
+                VALUES (:firstname, :lastname, :idnumber, :email, :password, :gender)
+            ");
+            $stmt->execute([
+                ':firstname' => $data->firstname,
+                ':lastname' => $data->lastname,
+                ':idnumber' => $data->idnumber,
+                ':email' => $data->email,
+                ':password' => $passwordHash,
+                ':gender' => $data->gender,
+            ]);
+            
+            return ["status" => "success", "message" => "User registered successfully"];
+        } catch (Exception $e) {
+            return ["status" => "error", "message" => $e->getMessage()];
+        }
+    }
 }
