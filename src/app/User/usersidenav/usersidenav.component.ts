@@ -9,6 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { DataService } from '../../service/data.service';
 
 @Component({
   selector: 'app-usersidenav',
@@ -34,6 +35,7 @@ export class UsersidenavComponent implements OnDestroy{
 
   constructor(
     private router: Router,
+    private dataService: DataService,
     changeDetectorRef: ChangeDetectorRef, 
     media: MediaMatcher
   ) {
@@ -62,6 +64,9 @@ export class UsersidenavComponent implements OnDestroy{
     this.router.navigate(['/user/AboutUs']);
   }
 
+  redirectToUserLogin() {
+    this.dataService.logout();
+  }
   ngOnInit(): void {    
     setInterval(() => {
       this.currentDateTime = new Date();

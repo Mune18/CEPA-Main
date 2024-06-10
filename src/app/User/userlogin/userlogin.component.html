@@ -15,15 +15,15 @@
 
         <form *ngIf="isLogin" class="login-form" (ngSubmit)="onSubmitLogin($event)">
           <div class="field input">
-            <input type="text" name="idnumber" id="login-idnumber" placeholder="ID Number" autocomplete="off" required>
+            <input type="text" name="idnumber" id="login-idnumber" placeholder="ID Number" autocomplete="off" required [(ngModel)]="idnumber">
           </div>
           <div class="field input">
-            <input type="password" name="password" id="login-password" placeholder="Password" autocomplete="off" required>
+            <input type="password" name="password" id="login-password" placeholder="Password" autocomplete="off" required [(ngModel)]="password">
           </div>
           <div class="field">
             <button type="submit" class="btn">Login</button>
           </div>
-        </form>
+        </form>        
 
         <form *ngIf="!isLogin" class="signup-form2" id="signup-form" (ngSubmit)="onSubmitSignUp($event)">
           <div class="field input">

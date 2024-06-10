@@ -27,7 +27,7 @@ export class LoginComponent {
       return;
     }
 
-    this.dataService.login(this.email, this.password).subscribe(
+    this.dataService.adminLogin(this.email, this.password).subscribe(
       success => {
         if (success) {
           this.router.navigate(['/admin/home']);

@@ -9,17 +9,18 @@ import { Router } from '@angular/router';
 })
 export class DataService {
   // private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
-  private apiUrl = 'http://localhost/CEPA-Main2/CEPA-Main/cepaapi/api/';
+  private apiUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   constructor(private http: HttpClient, private router: Router) {}
 
   // AuthService Methods
-  login(id: string, password: string): Observable<boolean> {
-    return this.http.post<any>(`${this.apiUrl}login`, { id, password }).pipe(
+  userLogin(idnumber: string, password: string): Observable<boolean> {
+    return this.http.post<any>(`${this.apiUrl}userlogin`, { idnumber, password }).pipe(
       map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('role', 'user'); // Save user role
           return true;
         } else {
           return false;
@@ -29,13 +30,47 @@ export class DataService {
     );
   }
 
+  adminLogin(id: string, password: string): Observable<boolean> {
+    return this.http.post<any>(`${this.apiUrl}adminlogin`, { id, password }).pipe(
+      map(response => {
+        if (response && response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('role', 'admin'); // Save admin role
+          return true;
+        } else {
+          return false;
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  register(user: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}register`, user).pipe(
+      map(response => response),
+      catchError(this.handleError)
+    );
+  }
+
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
 
-  logout(): void {
+  // Method to get the role of the logged-in user
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  adminLogout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     this.router.navigate(['/admin/login']);
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.router.navigate(['/user/login']);
   }
 
   // AttendanceService Methods
@@ -146,12 +181,6 @@ export class DataService {
     );
   }
 
-  register(user: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}register`, user).pipe(
-      map(response => response),
-      catchError(this.handleError)
-    );
-  }
   // Error Handling
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';

@@ -128,11 +128,19 @@
             // Retrieves JSON-decoded data from php://input using file_get_contents
             $data = json_decode(file_get_contents("php://input"));
             switch($request[0]){
-                case 'login':
+                case 'adminlogin':
                     // Call the login method of the Post class
                     echo json_encode($post->login($data));
                     break;
                     
+                case 'userlogin':
+                    echo json_encode($post->userLogin($data));
+                    break;
+                    
+                case 'register':
+                    echo json_encode($post->register($data));
+                    break;
+
                 case 'submitfeedback':
                     // Return JSON-encoded data for adding employees
                     echo json_encode($post->submit_feedback($data));

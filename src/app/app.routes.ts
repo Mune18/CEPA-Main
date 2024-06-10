@@ -15,6 +15,7 @@ import { FeedbackComponent } from './User/feedback/feedback.component';
 import { AdminAuthGuard } from './service/login/auth.guard';
 import { AdminFeedbackComponent } from './Admin/feedback/feedback.component';
 import { UserloginComponent } from './User/userlogin/userlogin.component';
+import { UserAuthGuard } from './service/login/userauth.guard';
 
 export const routes: Routes = [
   {
@@ -23,29 +24,27 @@ export const routes: Routes = [
     canActivate: [AdminAuthGuard]
   },
   {
-    path: 'user/userlogin',
+    path: 'user/login',
     component: UserloginComponent,
-  },
-  {
-    path: 'user',
-    redirectTo: 'user/userhome',
-    pathMatch: 'full',
+    canActivate: [UserAuthGuard]
   },
   {
     path: 'attendance/:eventId',
     component: AttendanceComponent,
+    canActivate: [UserAuthGuard]
   },
   {
     path: '',
-    redirectTo: 'user/userhome',
+    redirectTo: 'user/home',
     pathMatch: 'full',
   },
   {
     path: 'user',
     component: UsersidenavComponent,
+    canActivate: [UserAuthGuard],
     children: [
       {
-        path: 'userhome',
+        path: 'home',
         component: UserhomeComponent,
       },
       {
@@ -57,7 +56,7 @@ export const routes: Routes = [
         component: FeedbackComponent,
       },
       {
-        path: 'AboutUs',
+        path: 'aboutus',
         component: AboutusComponent,
       },
     ]
@@ -70,7 +69,7 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-      },  
+      },
       {
         path: 'eventmanagement',
         component: EventmanagementComponent,
@@ -91,7 +90,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'user/userhome',
+    redirectTo: 'user/home',
   },
 ];
 

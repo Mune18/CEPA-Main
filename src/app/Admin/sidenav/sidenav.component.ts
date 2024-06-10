@@ -81,7 +81,6 @@ export class SidenavComponent implements OnDestroy{
   }
 
   redirectToAdminLogin() {
-    this.dataService.logout(); // Call logout method from DataService
-    this.router.navigate(['admin/login']);
+    this.dataService.adminLogout(); // Call logout method from DataService
   }
 }

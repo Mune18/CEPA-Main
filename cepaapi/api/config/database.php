@@ -12,11 +12,11 @@ set_time_limit(1000);
 // define("DATABASE", "u475125807_cepa_db");
 // define("USER", "u475125807_cepa");
 // define("PASSWORD", "Itcepa2024");
-// define("DRIVER", "mysql");
 define("SERVER", "localhost");
 define("DATABASE", "cepa_db");
 define("USER", "root");
 define("PASSWORD", "");
+
 define("DRIVER", "mysql");
 
 class Connection{

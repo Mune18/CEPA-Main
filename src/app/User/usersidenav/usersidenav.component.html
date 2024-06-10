@@ -15,17 +15,28 @@
             <i class="fa-solid fa-users"></i>
             <span>Feedback</span>
           </mat-list-item>
+          
           <mat-list-item class="nav-list-item" (click)="navigateToAboutUs()">
             <i class="fa-solid fa-circle-info"></i>
             <span>About Us</span>
-          </mat-list-item>
+            </mat-list-item>
+
+            <div class="logout-container">
+                <div class="hr">
+                  <hr>
+                </div>
+                <mat-list-item class="nav-list-item logout" (click)="redirectToUserLogin()">
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                  <span>Log Out</span>
+                </mat-list-item>
+              </div>
         </mat-list>
-  
+
     </mat-sidenav>
     <mat-sidenav-content>
       <mat-toolbar>
         <button mat-button (click)="snav.toggle()" class="side-nav-tbutton" style="border: none; background-color: whitesmoke;">
-          <i class="fa-solid fa-bars-staggered side-toggle"></i>
+          <i class="fa-solid fa-bars side-toggle"></i>
         </button>  
         <div class="datetime-container">
           <i class="fa-regular fa-calendar"></i>

@@ -465,40 +465,58 @@ public function sendEmail($data, $template = 'default') {
             return $this->sendPayload(null, "failed", $errmsg, 400);
         }
     }
+
+    public function userLogin($data) {
+        $idnumber = isset($data->idnumber) ? $data->idnumber : null;
+        $password = isset($data->password) ? $data->password : null;
+    
+        if (!$idnumber || !$password) {
+            return array('error' => 'ID Number and password are required');
+        }
+    
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE idnumber = ?");
+        $stmt->execute([$idnumber]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        if ($user && password_verify($password, $user['password'])) {
+            $secret_key = bin2hex(random_bytes(32));
+            $algorithm = 'HS256';
+            $payload = array(
+                "id" => $user['id'],
+                "exp" => time() + (60 * 60 * 24)
+            );
+            $jwt = JWT::encode($payload, $secret_key, $algorithm);
+    
+            return array('success' => 'Login successful', 'token' => $jwt);
+        } else {
+            return array('error' => 'Invalid ID Number or password');
+        }
+    }    
+
     public function register($data) {
-        try {
-            // Check for existing email or ID number
-            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email = :email OR idnumber = :idnumber");
-            $stmt->execute([
-                ':email' => $data->email,
-                ':idnumber' => $data->idnumber,
-            ]);
-            $existingUser = $stmt->fetch();
-            
-            if ($existingUser) {
-                return ["status" => "error", "message" => "Email or ID number already registered"];
-            }
-            
-            // Hash the password
-            $passwordHash = password_hash($data->password, PASSWORD_BCRYPT);
-            
-            // Insert new user
-            $stmt = $this->pdo->prepare("
-                INSERT INTO users (firstname, lastname, idnumber, email, password, gender)
-                VALUES (:firstname, :lastname, :idnumber, :email, :password, :gender)
-            ");
-            $stmt->execute([
-                ':firstname' => $data->firstname,
-                ':lastname' => $data->lastname,
-                ':idnumber' => $data->idnumber,
-                ':email' => $data->email,
-                ':password' => $passwordHash,
-                ':gender' => $data->gender,
-            ]);
-            
-            return ["status" => "success", "message" => "User registered successfully"];
-        } catch (Exception $e) {
-            return ["status" => "error", "message" => $e->getMessage()];
+        $firstname = isset($data->firstname) ? $data->firstname : null;
+        $lastname = isset($data->lastname) ? $data->lastname : null;
+        $idnumber = isset($data->idnumber) ? $data->idnumber : null;
+        $email = isset($data->email) ? $data->email : null;
+        $password = isset($data->password) ? $data->password : null;
+        $gender = isset($data->gender) ? $data->gender : null;
+
+        if (!$firstname || !$lastname || !$idnumber || !$email || !$password || !$gender) {
+            return array('status' => 'error', 'message' => 'All fields are required');
+        }
+
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE idnumber = ? OR email = ?");
+        $stmt->execute([$idnumber, $email]);
+        if ($stmt->fetch(PDO::FETCH_ASSOC)) {
+            return array('status' => 'error', 'message' => 'User already exists');
+        }
+
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = $this->pdo->prepare("INSERT INTO users (firstname, lastname, idnumber, email, password, gender) VALUES (?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$firstname, $lastname, $idnumber, $email, $hashedPassword, $gender])) {
+            return array('status' => 'success', 'message' => 'User registered successfully');
+        } else {
+            return array('status' => 'error', 'message' => 'Failed to register user');
         }
     }
 }

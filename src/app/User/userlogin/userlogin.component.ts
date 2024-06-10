@@ -23,7 +23,7 @@ export class UserloginComponent {
   gender: string = '';
   showPassword: boolean = false;
 
-  constructor(private dataService: DataService, private snackBar: MatSnackBar) {}
+  constructor(private dataService: DataService, private snackBar: MatSnackBar, private router: Router) {}
 
   toggleForm(event: Event) {
     event.preventDefault();
@@ -32,8 +32,23 @@ export class UserloginComponent {
 
   onSubmitLogin(event: Event) {
     event.preventDefault();
-    console.log('Login form submitted');
-    // Handle login logic here
+    this.dataService.userLogin(this.idnumber, this.password).subscribe(
+      success => {
+        if (success) {
+          this.router.navigate(['/user/home']);
+        } else {
+          this.snackBar.open('Login failed. Please check your ID and password.', 'Close', {
+            duration: 3000,
+          });
+        }
+      },
+      error => {
+        console.error('Login error', error);
+        this.snackBar.open('Login failed. Please try again.', 'Close', {
+          duration: 3000,
+        });
+      }
+    );
   }
 
   onSubmitSignUp(event: Event) {
@@ -47,12 +62,12 @@ export class UserloginComponent {
     }
 
     const user = {
-      firstname: (document.getElementById('signup-firstname') as HTMLInputElement).value,
-      lastname: (document.getElementById('signup-lastname') as HTMLInputElement).value,
-      idnumber: (document.getElementById('signup-idnumber') as HTMLInputElement).value,
-      email: (document.getElementById('signup-email') as HTMLInputElement).value,
+      firstname: this.firstname,
+      lastname: this.lastname,
+      idnumber: this.idnumber,
+      email: this.email,
       password: this.password,
-      gender: (document.getElementById('signup-gender') as HTMLSelectElement).value,
+      gender: this.gender,
     };
 
     this.dataService.register(user).subscribe(
@@ -62,7 +77,8 @@ export class UserloginComponent {
           this.snackBar.open('Registered successfully!', 'Close', {
             duration: 3000,
           });
-          this.resetSignUpForm(); // Reset the form fields here
+          this.resetSignUpForm();
+          this.isLogin = true;
         } else {
           console.error('Registration error', response);
           this.snackBar.open(response.message, 'Close', {
@@ -87,14 +103,13 @@ export class UserloginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  // Method to reset the sign-up form fields
   resetSignUpForm() {
-    (document.getElementById('signup-firstname') as HTMLInputElement).value = '';
-    (document.getElementById('signup-lastname') as HTMLInputElement).value = '';
-    (document.getElementById('signup-idnumber') as HTMLInputElement).value = '';
-    (document.getElementById('signup-email') as HTMLInputElement).value = '';
+    this.firstname = '';
+    this.lastname = '';
+    this.idnumber = '';
+    this.email = '';
     this.password = '';
     this.retypePassword = '';
-    (document.getElementById('signup-gender') as HTMLSelectElement).value = '';
+    this.gender = '';
   }
 }

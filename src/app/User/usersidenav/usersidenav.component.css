@@ -100,6 +100,27 @@ mat-sidenav {
   text-transform: capitalize;
 }
 
+.hr {
+  align-items: center;
+  text-align: center;
+  width: 85%;
+  margin: 0 15% 0 7%;
+}
+
+.logout-container {
+  position: absolute;
+  padding-bottom: 0.4rem;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.selected {
+  background-color: #4070f4;
+  border-radius: 8px;
+  margin: 0 5px;
+}
+
 @media screen and (max-width: 768px) {
   mat-sidenav {
     max-width: 240px; /* Adjust the max-width as needed */
@@ -126,4 +147,3 @@ mat-sidenav {
     padding: 15px 0px 15px 15px;
   }
 }
-

@@ -5,23 +5,22 @@ import { DataService } from '../data.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminAuthGuard implements CanActivate {
+export class UserAuthGuard implements CanActivate {
   constructor(private dataService: DataService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
     const isLoggedIn = this.dataService.isLoggedIn();
-    const role = this.dataService.getRole();
 
-    if (state.url.startsWith('/admin/login') && isLoggedIn && role === 'admin') {
-      return this.router.parseUrl('/admin/home');
+    if (state.url.startsWith('/user/login') && isLoggedIn) {
+      return this.router.parseUrl('/user/home');
     }
 
-    if (isLoggedIn && role === 'admin') {
+    if (isLoggedIn) {
       return true;
     }
 
-    if (!state.url.startsWith('/admin/login')) {
-      return this.router.parseUrl('/admin/login');
+    if (!state.url.startsWith('/user/login')) {
+      return this.router.parseUrl('/user/login');
     }
 
     return true;
