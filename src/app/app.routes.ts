@@ -16,6 +16,7 @@ import { AdminAuthGuard } from './service/login/auth.guard';
 import { AdminFeedbackComponent } from './Admin/feedback/feedback.component';
 import { UserloginComponent } from './User/userlogin/userlogin.component';
 import { UserAuthGuard } from './service/login/userauth.guard';
+import { ProfileComponent } from './User/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -44,12 +45,12 @@ export const routes: Routes = [
     canActivate: [UserAuthGuard],
     children: [
       {
-        path: 'home',
-        component: UserhomeComponent,
+        path: 'profile',
+        component: ProfileComponent,
       },
       {
-        path: 'searchparticipant',
-        component: SearchparticipantComponent,
+        path: 'home',
+        component: UserhomeComponent,
       },
       {
         path: 'feedback',
@@ -81,6 +82,10 @@ export const routes: Routes = [
       {
         path: 'mailer',
         component: MailerComponent,
+      },
+      {
+        path: 'searchparticipant',
+        component: SearchparticipantComponent,
       },
       {
         path: 'feedback',

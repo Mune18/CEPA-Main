@@ -1,0 +1,161 @@
+h1 {
+  padding-left: 40px;
+  padding-top: 20px;
+  padding-bottom: 7px;
+  font-weight: bold;
+  font-size: 40px; /* Increased font size */
+}
+
+hr {
+  margin-left: 40px;
+  margin-right: 40px;
+  border: none; /* Remove default border */
+  border-top: 1px solid #000; /* Add custom border */
+}
+
+.icon-circle {
+  border-radius: 50%;
+  padding: 6px 12px 10px 12px; /* Reduced padding */
+  display: inline-block;
+  text-align: center;
+}
+
+.icon-circle i {
+  color: #fff; /* White icon */
+  font-size: 50px; /* Adjust font size if necessary */
+}
+
+.rectangle {
+  width: 90%; /* Adjust width as needed */
+  height: auto; /* Adjust height as needed */
+  background-color: #f0f0f0; /* Light gray background */
+  margin: 20px auto; /* Center horizontally with some space */
+  padding: 20px; /* Padding inside the rectangle */
+  box-sizing: border-box; /* Include padding in the element's total width and height */
+  border: 1px solid #ddd; /* Border color and style */
+  border-left: 5px solid #666; /* Darker left border */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 18px; /* Font size for content */
+  position: relative; /* Position relative for shadow */
+  overflow: hidden; /* Hide overflow for shadow */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+.logo .icon-circle i {
+  color: black;
+  font-size: 120px;
+}
+
+.student-info {
+  margin-left: 160px; /* Adjusted for the icon width */
+  position: relative;
+}
+
+/* Add styles for the vertical line */
+.vertical-line {
+  position: absolute;
+  left: 0;
+  top: 5%; /* Set a percentage value for equal margin on top and bottom */
+  bottom: 5%; /* Set a percentage value for equal margin on top and bottom */
+  width: 1px;
+  background-color: #000; /* Color of the line */
+}
+
+.info-table {
+  width: 98%;
+  border-collapse: collapse;
+  margin-left: 20px; /* Adjust to align with vertical line */
+}
+
+.info-table th, .info-table td {
+  padding: 8px 10px;
+  text-align: left;
+  font-family: "Arial", sans-serif; /* Change the font to your preference */
+  border: 1px solid #ddd; /* Add border to show gridlines */
+}
+
+.info-table th {
+  width: 20px;
+  padding-right: 50px; /* Set padding-right to zero for the th elements */
+}
+
+/* Additional styles for label */
+.label {
+  font-weight: bold;
+}
+
+/* Add a stronger shadow on hover */
+.rectangle:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.form-container {
+  width: 95%; /* Adjust width as needed */
+  margin: 0 auto; /* Center horizontally */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Make the form-container a flex container */
+  position: relative; /* Position relative to handle absolute positioning of the button */
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 15px;
+  flex-grow: 1; /* Allow the form grid to grow */
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add a style for the button to be positioned at the bottom right */
+.button-container {
+  position: absolute;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+}
+
+.form-group label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: calc(100% - 22px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.event-table th, .event-table td {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+}
+
+.event-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}

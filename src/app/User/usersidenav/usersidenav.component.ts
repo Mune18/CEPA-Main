@@ -52,10 +52,6 @@ export class UsersidenavComponent implements OnDestroy{
     this.router.navigate(['/user/userhome']);
   }
   
-  navigateToSearchParticipant() {
-    this.router.navigate(['/user/searchparticipant']);
-  }
-  
   navigateToFeedback() {
     this.router.navigate(['/user/feedback']);
   }
