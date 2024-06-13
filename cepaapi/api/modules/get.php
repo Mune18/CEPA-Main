@@ -216,4 +216,37 @@ class Get extends GlobalMethods{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function get_user_details($userId) {
+        try {
+            $sql = "SELECT * FROM users WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            $userDetails = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $userDetails;
+        } catch(PDOException $e) {
+            // Handle any potential errors
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+    
+    public function get_additional_user_info($userId) {
+        try {
+            $sql = "SELECT * FROM user_info WHERE user_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+            $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $userInfo ? $userInfo : null;
+        } catch(PDOException $e) {
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }    
 }

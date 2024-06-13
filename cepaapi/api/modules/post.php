@@ -487,11 +487,11 @@ public function sendEmail($data, $template = 'default') {
             );
             $jwt = JWT::encode($payload, $secret_key, $algorithm);
     
-            return array('success' => 'Login successful', 'token' => $jwt);
+            return array('success' => 'Login successful', 'token' => $jwt, 'user' => $user); // Return user information along with the token
         } else {
             return array('error' => 'Invalid ID Number or password');
         }
-    }    
+    }
 
     public function register($data) {
         $firstname = isset($data->firstname) ? $data->firstname : null;
@@ -519,4 +519,39 @@ public function sendEmail($data, $template = 'default') {
             return array('status' => 'error', 'message' => 'Failed to register user');
         }
     }
+    
+    public function insert_user_info($data) {
+        // Check if all required fields are provided
+        if (
+            !isset($data->user_id) || !isset($data->college_program) ||
+            !isset($data->phone_number) || !isset($data->date_of_birth) ||
+            !isset($data->place_of_birth) || !isset($data->gender) ||
+            !isset($data->sexual_orientation) || !isset($data->gender_identity)
+        ) {
+            return array('status' => 'error', 'message' => 'Incomplete data provided');
+        }
+    
+        // SQL query to insert user information
+        $sql = "INSERT INTO user_info (user_id, college_program, phone_number, date_of_birth, place_of_birth, gender, sexual_orientation, gender_identity) 
+                VALUES (:user_id, :college_program, :phone_number, :date_of_birth, :place_of_birth, :gender, :sexual_orientation, :gender_identity)";
+        
+        try {
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                ':user_id' => $data->user_id,
+                ':college_program' => $data->college_program,
+                ':phone_number' => $data->phone_number,
+                ':date_of_birth' => $data->date_of_birth,
+                ':place_of_birth' => $data->place_of_birth,
+                ':gender' => $data->gender,
+                ':sexual_orientation' => $data->sexual_orientation,
+                ':gender_identity' => $data->gender_identity
+            ]);
+    
+            return array('status' => 'success', 'message' => 'User info inserted successfully');
+        } catch (PDOException $e) {
+            return array('status' => 'error', 'message' => $e->getMessage());
+        }
+    }
+    
 }

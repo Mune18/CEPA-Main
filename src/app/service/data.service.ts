@@ -15,13 +15,19 @@ export class DataService {
   constructor(private http: HttpClient, private router: Router) {}
 
   // AuthService Methods
-  userLogin(idnumber: string, password: string): Observable<boolean> {
+  userLogin(idnumber: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}userlogin`, { idnumber, password }).pipe(
       map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('role', 'user'); // Save user role
-          return true;
+          // Save only necessary user information
+          const minimalUserData = {
+            id: response.user.id,
+            name: `${response.user.firstname} ${response.user.lastname}`
+          };
+          localStorage.setItem('currentUser', JSON.stringify(minimalUserData)); // Save minimal user information
+          return minimalUserData; // Return minimal user information
         } else {
           return false;
         }
@@ -29,6 +35,7 @@ export class DataService {
       catchError(this.handleError)
     );
   }
+  
 
   adminLogin(id: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}adminlogin`, { id, password }).pipe(
@@ -70,6 +77,7 @@ export class DataService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('currentUser');
     this.router.navigate(['/user/login']);
   }
 
@@ -177,6 +185,22 @@ export class DataService {
   // AdminFeedbackService Methods
   getFeedbackData(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}getfeedbackdata`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  //Fetch user Details
+  getUserDetails(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getuserdetails/${userId}`);
+  }
+
+  getUserAddDetails(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getuseradddetails/${userId}`);
+  }
+
+  // Insert user information
+  insertUserInfo(userInfo: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}insertuserinfo`, userInfo).pipe(
       catchError(this.handleError)
     );
   }

@@ -113,6 +113,29 @@
                 case "getfeedbackdata":
                     echo json_encode($get->get_feedback_data()); // Call method to fetch feedback data
                     break;
+                
+                case 'getuserdetails':
+                    if(isset($request[1])) {
+                        $userId = $request[1]; // Extract the user ID from the request
+                        echo json_encode($get->get_user_details($userId)); // Call the get_user_details() method with the user ID
+                    } else {
+                        // Handle the case where the user ID is not provided
+                        echo "User ID not provided";
+                        http_response_code(400); // Bad request status code
+                    }
+                    break;
+                
+                case 'getuseradddetails':
+                    if(isset($request[1])) {
+                        $userId = $request[1]; // Extract the user ID from the request
+                        echo json_encode($get->get_additional_user_info($userId)); // Call the get_user_details() method with the user ID
+                    } else {
+                        // Handle the case where the user ID is not provided
+                        echo "User ID not provided";
+                        http_response_code(400); // Bad request status code
+                    }
+                    break;
+                    
 
                 default:
                     // Return a 403 response for unsupported requests

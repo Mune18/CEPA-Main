@@ -7,25 +7,23 @@
       <span class="icon-circle"><i class="fa-solid fa-circle-user"></i></span>
     </div>
     <div class="student-info">
-      <!-- Add a vertical line -->
       <div class="vertical-line"></div>
-      <!-- Adjusted position of table -->
       <table class="info-table">
         <tr>
           <th class="label">Student Number:</th>
-          <td id="student_number_display">123456</td>
+          <td id="student_number_display">{{ user.idnumber }}</td>
         </tr>
         <tr>
           <th class="label">Full Name:</th>
-          <td id="full_name_display">Lebron James</td>
+          <td id="full_name_display">{{ user.firstname }} {{ user.lastname }}</td>
         </tr>
         <tr>
           <th class="label">Email Address:</th>
-          <td id="email_address_display">lebronjames.com</td>
+          <td id="email_address_display">{{ user.email }}</td>
         </tr>
         <tr>
-          <th class="label">College/Program:</th>
-          <td id="college_program_display">Information Technology</td>
+          <th class="label">Gender:</th>
+          <td id="college_program_display">{{ user.gender }}</td>
         </tr>
       </table>
     </div>
@@ -34,57 +32,45 @@
   <div class="rectangle">
     <h2>Personal Information</h2>
     <div class="form-container">
-      <form class="form-grid">
-        <div class="form-group">
-          <label for="student_number">Student Number</label>
-          <input type="text" id="student_number" name="student_number" placeholder="Student number">
-        </div>
-        <div class="form-group">
-          <label for="full_name">Full Name</label>
-          <input type="text" id="full_name" name="full_name" placeholder="Full name">
-        </div>
-        <div class="form-group">
-          <label for="email_address">Email Address</label>
-          <input type="email" id="email_address" name="email_address" placeholder="Email address">
-        </div>
+      <form class="form-grid" [formGroup]="userForm" (ngSubmit)="insertUserInfo()">
         <div class="form-group">
           <label for="college_program">College/Program</label>
-          <input type="text" id="college_program" name="college_program" placeholder="College program">
+          <input type="text" id="college_program" formControlName="college_program" placeholder="College program">
         </div>
         <div class="form-group">
           <label for="phone_number">Phone Number</label>
-          <input type="text" id="phone_number" name="phone_number" placeholder="Phone number">
+          <input type="text" id="phone_number" formControlName="phone_number" placeholder="Phone number">
         </div>
         <div class="form-group">
           <label for="date_of_birth">Date of Birth</label>
-          <input type="date" id="date_of_birth" name="date_of_birth" placeholder="Date of Birth">
+          <input type="date" id="date_of_birth" formControlName="date_of_birth" placeholder="Date of Birth">
         </div>
         <div class="form-group">
           <label for="place_of_birth">Place of Birth</label>
-          <input type="text" id="place_of_birth" name="place_of_birth" placeholder="Place of Birth">
+          <input type="text" id="place_of_birth" formControlName="place_of_birth" placeholder="Place of Birth">
         </div>
         <div class="form-group">
           <label for="sex_at_birth">Gender</label>
-          <select id="sex_at_birth" name="sex_at_birth">
+          <select id="sex_at_birth" formControlName="gender">
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
         </div>
         <div class="form-group">
           <label for="sexual_orientation">Sexual Orientation</label>
-          <select id="sexual_orientation" name="sexual_orientation">
+          <select id="sexual_orientation" formControlName="sexual_orientation">
             <option value="Lesbian">Lesbian</option>
             <option value="Gay">Gay</option>
             <option value="Bisexual">Bisexual</option>
             <option value="Transgender">Transgender</option>
-            <option value=">Queer">Queer</option>
+            <option value="Queer">Queer</option>
             <option value="Straight">Straight</option>
             <option value="Decline to Answer">Decline to Answer</option>
           </select>
         </div>
         <div class="form-group">
           <label for="gender_identity">Gender Identity</label>
-          <select id="gender_identity" name="gender_identity">
+          <select id="gender_identity" formControlName="gender_identity">
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="transmale">Transmale</option>
@@ -93,13 +79,14 @@
             <option value="decline_to_answer">Decline to Answer</option>
           </select>
         </div>
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit">Save</button>
+        </div>
       </form>
-      <!-- Save button container -->
-      <div class="button-container">
-        <button mat-raised-button color="primary">Save</button>
-      </div>
     </div>
   </div>
+  
+
   
   <div class="rectangle">
     <h2>Events Joined</h2>
