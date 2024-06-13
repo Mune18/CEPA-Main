@@ -27,7 +27,7 @@ import { DataService } from '../../service/data.service';
   templateUrl: './usersidenav.component.html',
   styleUrl: './usersidenav.component.css'
 })
-export class UsersidenavComponent implements OnDestroy{
+export class UsersidenavComponent implements OnDestroy, OnInit {
   currentDateTime = new Date();
   selectedNavItem = '';
   mobileQuery: MediaQueryList;
@@ -36,7 +36,7 @@ export class UsersidenavComponent implements OnDestroy{
   constructor(
     private router: Router,
     private dataService: DataService,
-    changeDetectorRef: ChangeDetectorRef, 
+    changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -48,22 +48,31 @@ export class UsersidenavComponent implements OnDestroy{
     this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 
+  navigateToProfile() {
+    this.selectedNavItem = 'profile';
+    this.router.navigate(['/user/profile']);
+  }
+
   navigateToHome() {
+    this.selectedNavItem = 'home';
     this.router.navigate(['/user/userhome']);
   }
-  
+
   navigateToFeedback() {
+    this.selectedNavItem = 'feedback';
     this.router.navigate(['/user/feedback']);
   }
 
   navigateToAboutUs() {
+    this.selectedNavItem = 'about-us';
     this.router.navigate(['/user/AboutUs']);
   }
 
   redirectToUserLogin() {
     this.dataService.logout();
   }
-  ngOnInit(): void {    
+
+  ngOnInit(): void {
     setInterval(() => {
       this.currentDateTime = new Date();
     }, 1000);

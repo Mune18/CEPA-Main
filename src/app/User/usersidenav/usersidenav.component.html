@@ -1,45 +1,71 @@
-  <mat-sidenav-container>
+<mat-sidenav-container>
 
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" class="mat-sidenav" [opened]="!mobileQuery.matches">    
-      <img src="assets/images/CEPAlogo2-removebg-preview.png" class="logo" alt="CEPAnav">
-        <mat-list class="side-nav-contet nav-list">
-          <mat-list-item class="nav-list-item" (click)="navigateToHome()">
-            <i class="fa-solid fa-house"></i>
-            <span>Home</span>
-          </mat-list-item>
-          <mat-list-item class="nav-list-item" (click)="navigateToFeedback()">
-            <i class="fa-solid fa-users"></i>
-            <span>Feedback</span>
-          </mat-list-item>
-          
-          <mat-list-item class="nav-list-item" (click)="navigateToAboutUs()">
-            <i class="fa-solid fa-circle-info"></i>
-            <span>About Us</span>
-            </mat-list-item>
-
-            <div class="logout-container">
-                <div class="hr">
-                  <hr>
-                </div>
-                <mat-list-item class="nav-list-item logout" (click)="redirectToUserLogin()">
-                  <i class="fa-solid fa-right-from-bracket"></i>
-                  <span>Log Out</span>
-                </mat-list-item>
-              </div>
-        </mat-list>
-
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar>
-        <button mat-button (click)="snav.toggle()" class="side-nav-tbutton" style="border: none; background-color: whitesmoke;">
-          <i class="fa-solid fa-bars side-toggle"></i>
-        </button>  
-        <div class="datetime-container">
-          <i class="fa-regular fa-calendar"></i>
-          <span>{{ currentDateTime | date: 'EEEE, MMM d, y, h:mm a' }}</span>
+  <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" class="mat-sidenav" [opened]="!mobileQuery.matches">    
+    <div class="logo-container">
+      <img src="assets/images/CEPAlogo2-removebg-preview.png" class="sidenav-logo" alt="CEPAnav">
+    </div>
+    <div class="user-info-container">
+      <i class="fa-solid fa-circle-user user-icon"></i>
+      <div class="user-details">
+        <span class="user-name">Rodge Romer B. Muni</span>
       </div>
-      </mat-toolbar>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-  
+      <span class="user-role">Student</span>
+      <div class="profile-sidenav">
+        <mat-list-item 
+          class="nav-list-item" 
+          (click)="navigateToProfile()" 
+          [class.selected]="selectedNavItem === 'profile'">
+          <i class="fa-solid fa-circle-user"></i>
+          <span>Profile</span>
+        </mat-list-item>
+      </div>
+    </div>
+    <span class="user-dashboard">Dashboard</span>
+    <mat-list class="side-nav-contet nav-list">
+      <mat-list-item 
+        class="nav-list-item" 
+        (click)="navigateToHome()" 
+        [class.selected]="selectedNavItem === 'home'">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </mat-list-item>
+      <mat-list-item 
+        class="nav-list-item" 
+        (click)="navigateToFeedback()" 
+        [class.selected]="selectedNavItem === 'feedback'">
+        <i class="fa-solid fa-users"></i>
+        <span>Feedback</span>
+      </mat-list-item>
+      
+      <mat-list-item 
+        class="nav-list-item" 
+        (click)="navigateToAboutUs()" 
+        [class.selected]="selectedNavItem === 'about-us'">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>About Us</span>
+      </mat-list-item>
+
+      <div class="logout-container">
+        <div class="hr">
+          <hr>
+        </div>
+        <mat-list-item class="nav-list-item logout" (click)="redirectToUserLogin()">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Log Out</span>
+        </mat-list-item>
+      </div>
+    </mat-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button mat-button (click)="snav.toggle()" class="side-nav-tbutton" style="border: none; background-color: whitesmoke;">
+        <i class="fa-solid fa-bars side-toggle"></i>
+      </button>  
+      <div class="datetime-container">
+        <i class="fa-regular fa-calendar"></i>
+        <span>{{ currentDateTime | date: 'EEEE, MMM d, y, h:mm a' }}</span>
+      </div>
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

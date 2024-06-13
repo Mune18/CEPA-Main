@@ -5,7 +5,7 @@ mat-sidenav-container {
 mat-sidenav-content {
   overflow-y: auto;
   background-color: #e4e9f7;
-  position: relative; /* Added position relative */
+  position: relative;
 }
 
 mat-sidenav-content::before {
@@ -28,10 +28,46 @@ mat-sidenav {
   background-color: whitesmoke;
 }
 
-.logo {
-  display: block;
-  margin: 20px auto;
-  width: 70%;
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 2px solid rgb(224, 224, 224); /* Add a bottom border */
+}
+
+.sidenav-logo {
+  width: 40%; /* Adjust the width as needed */
+}
+
+.user-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid rgb(224, 224, 224); /* Add a bottom border */
+  margin-bottom: 10px;
+}
+
+.user-icon {
+  font-size: 6rem; /* Adjust the size as needed */
+  margin-bottom: 12px;
+}
+
+.user-details {
+  text-align: center;
+}
+
+.user-name {
+  font-size: 20px; /* Adjust the size as needed */
+  font-weight: bold;
+}
+
+.user-role {
+  font-size: 15px; /* Adjust the size as needed */
+  margin-top: 6px;
+  margin-bottom: 5px;
+  color: gray;
 }
 
 .mat-mdc-list-base {
@@ -46,6 +82,18 @@ mat-sidenav {
   cursor: pointer; 
   margin-right: 10px;
   margin-left: -10px;
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.navbar-logo {
+  height: 50px; /* Adjust the height as needed */
+  margin-left: 20px; /* Adjust margin to align with the navbar */
+  border-bottom: 2px solid black; /* Add an underline */
 }
 
 .datetime-container {
@@ -72,25 +120,29 @@ mat-sidenav {
 }
 
 .nav-list-item {
-  color: #fff;
+  color: #000; /* Changed to black for better contrast */
   min-height: fit-content;
   width: auto;
   display: flex;
   align-items: center;
+  padding: 10px; /* Added padding for better spacing */
   transition: 0.2s linear;
+  cursor: pointer; /* Added pointer cursor for better UX */
 }
 
-.nav-list-item:hover{
-  background-color: #4070f4;
+.nav-list-item:hover {
+  background-color: #e9e9e9;
   border-radius: 8px;
-  margin: 0 5px; /* Adjusted margin */
+  margin: 0 5px;
+  color: #fff; /* Change text color to white on hover */
+  width: calc(100% - 10px); /* Make the hover box longer */
 }
 
 .nav-list-item i {
   font-size: 1.3rem;
   width: 30px;
   height: 25px;
-  margin: 0 10px 0 5px; /* Adjusted margin */
+  margin: 0 10px 0 5px;
   text-align: center;
 }
 
@@ -119,21 +171,38 @@ mat-sidenav {
   background-color: #4070f4;
   border-radius: 8px;
   margin: 0 5px;
+  color: #fff; /* Change text color to white when selected */
+}
+
+.profile-sidenav {
+  width: 100%; /* Ensure the profile-sidenav takes the full width */
+  justify-content: flex-start; /* Align content to the left */
+}
+
+.user-dashboard {
+  margin-left: 17px;
+  color: gray;
+}
+
+.nav-list-item.selected {
+  background-color: #4070f4;
+  color: #fff;
+  border-radius: 8px;
 }
 
 @media screen and (max-width: 768px) {
   mat-sidenav {
-    max-width: 240px; /* Adjust the max-width as needed */
+    max-width: 240px;
     min-width: 0;
   } 
   .mat-sidenav.mat-drawer-side {
     width: 100%;
   }
-.nav-list-item span {
-  margin-left: 5px;
-  text-transform: capitalize;
-}
-  mat-card{
+  .nav-list-item span {
+    margin-left: 5px;
+    text-transform: capitalize;
+  }
+  mat-card {
     width: 80px !important;
   }
   .datetime-container i {
@@ -143,7 +212,7 @@ mat-sidenav {
   .datetime-container span {
     font-size: 1rem; 
   }
-  .mat-toolbar{
+  .mat-toolbar {
     padding: 15px 0px 15px 15px;
   }
 }
