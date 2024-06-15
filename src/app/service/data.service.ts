@@ -20,7 +20,7 @@ export class DataService {
       map(response => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
-          localStorage.setItem('role', 'user'); // Save user role
+          localStorage.setItem('role', 'Student'); // Save user role
           // Save only necessary user information
           const minimalUserData = {
             id: response.user.id,
@@ -198,7 +198,6 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}getuseradddetails/${userId}`);
   }
 
-  // Insert user information
   insertUserInfo(userInfo: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}insertuserinfo`, userInfo).pipe(
       catchError(this.handleError)

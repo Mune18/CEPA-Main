@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   userInfo: any = {};
   userForm!: FormGroup;
 
-  constructor(private dataService: DataService, private fb: FormBuilder) {}
+  constructor(private dataService: DataService, private fb: FormBuilder, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     const userData = localStorage.getItem('currentUser');
@@ -46,6 +46,8 @@ export class ProfileComponent implements OnInit {
           console.error('Error fetching user details:', error);
         }
       );
+    } else {
+      this.initializeForm(); // Initialize form if no user data is found
     }
   }
 
@@ -62,22 +64,34 @@ export class ProfileComponent implements OnInit {
   }
 
   insertUserInfo(): void {
-    if (this.userInfo && this.user) {
-      this.userInfo.user_id = this.user.id;
+    if (this.userForm.valid) {
+      const userInfo = {
+        ...this.userInfo,
+        ...this.userForm.value,
+        user_id: this.user.id
+      };
 
-      this.dataService.insertUserInfo(this.userInfo).subscribe(
+      this.dataService.insertUserInfo(userInfo).subscribe(
         (response: any) => {
-          console.log('User info inserted successfully', response);
-          // Handle success, e.g., show a success message
+          console.log('User info inserted/updated successfully', response);
+          this.snackBar.open('User info updated successfully', 'Close', { duration: 3000 });
+          // Fetch and display the updated data
+          this.dataService.getUserAddDetails(this.user.id).subscribe(
+            (updatedUserInfo: any) => {
+              this.userInfo = updatedUserInfo;
+              this.initializeForm(); // Reinitialize form with updated data
+            },
+            (error) => {
+              console.error('Error fetching updated user details:', error);
+            }
+          );
         },
         (error) => {
-          console.error('Error inserting user info:', error);
-          // Handle error, e.g., show an error message
+          console.error('Error inserting/updating user info:', error);
         }
       );
     } else {
-      console.error('User or User info is null or undefined');
-      // Handle scenario where user or user info is not properly fetched
+      console.error('Form is invalid');
     }
   }
 }

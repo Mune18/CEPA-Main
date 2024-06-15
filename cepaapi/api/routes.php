@@ -236,6 +236,13 @@
                             echo json_encode($post->register($data));
                         }
                         break;
+                    case 'insertuserinfo':
+                            if (is_null($data)) {
+                            echo json_encode(["status" => "error", "message" => "Invalid JSON data"]);
+                        } else {
+                            echo json_encode($post->insert_user_info($data));
+                        }
+                        break;
                 
                 default:
                     // Return a 403 response for unsupported requests

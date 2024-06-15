@@ -531,10 +531,29 @@ public function sendEmail($data, $template = 'default') {
             return array('status' => 'error', 'message' => 'Incomplete data provided');
         }
     
-        // SQL query to insert user information
-        $sql = "INSERT INTO user_info (user_id, college_program, phone_number, date_of_birth, place_of_birth, gender, sexual_orientation, gender_identity) 
-                VALUES (:user_id, :college_program, :phone_number, :date_of_birth, :place_of_birth, :gender, :sexual_orientation, :gender_identity)";
-        
+        // Check if the user_id already exists in the database
+        $check_sql = "SELECT COUNT(*) FROM user_info WHERE user_id = :user_id";
+        $check_stmt = $this->pdo->prepare($check_sql);
+        $check_stmt->execute([':user_id' => $data->user_id]);
+        $exists = $check_stmt->fetchColumn();
+    
+        if ($exists) {
+            // Update existing record
+            $sql = "UPDATE user_info SET 
+                        college_program = :college_program, 
+                        phone_number = :phone_number, 
+                        date_of_birth = :date_of_birth, 
+                        place_of_birth = :place_of_birth, 
+                        gender = :gender, 
+                        sexual_orientation = :sexual_orientation, 
+                        gender_identity = :gender_identity 
+                    WHERE user_id = :user_id";
+        } else {
+            // Insert new record
+            $sql = "INSERT INTO user_info (user_id, college_program, phone_number, date_of_birth, place_of_birth, gender, sexual_orientation, gender_identity) 
+                    VALUES (:user_id, :college_program, :phone_number, :date_of_birth, :place_of_birth, :gender, :sexual_orientation, :gender_identity)";
+        }
+    
         try {
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
@@ -548,7 +567,7 @@ public function sendEmail($data, $template = 'default') {
                 ':gender_identity' => $data->gender_identity
             ]);
     
-            return array('status' => 'success', 'message' => 'User info inserted successfully');
+            return array('status' => 'success', 'message' => 'User info inserted/updated successfully');
         } catch (PDOException $e) {
             return array('status' => 'error', 'message' => $e->getMessage());
         }

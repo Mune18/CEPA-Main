@@ -31,7 +31,10 @@ export class UsersidenavComponent implements OnDestroy, OnInit {
   currentDateTime = new Date();
   selectedNavItem = '';
   mobileQuery: MediaQueryList;
+  userName!: string;
+  userRole!: string;
   private _mobileQueryListener: () => void;
+  
 
   constructor(
     private router: Router,
@@ -76,5 +79,16 @@ export class UsersidenavComponent implements OnDestroy, OnInit {
     setInterval(() => {
       this.currentDateTime = new Date();
     }, 1000);
+    
+    const userData = localStorage.getItem('currentUser');
+    if (userData) {
+      const currentUser = JSON.parse(userData);
+      this.userName = currentUser.name;
+    }
+
+    const roleData = localStorage.getItem('role');
+    if (roleData) {
+      this.userRole = roleData;
+    }
   }
 }

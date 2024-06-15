@@ -29,7 +29,7 @@
     </div>
   </div>
   
-  <div class="rectangle">
+  <div class="rectangle" *ngIf="userForm">
     <h2>Personal Information</h2>
     <div class="form-container">
       <form class="form-grid" [formGroup]="userForm" (ngSubmit)="insertUserInfo()">
@@ -85,8 +85,6 @@
       </form>
     </div>
   </div>
-  
-
   
   <div class="rectangle">
     <h2>Events Joined</h2>
