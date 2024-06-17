@@ -106,7 +106,7 @@ class Get extends GlobalMethods{
     public function get_attendance_for_event($eventId) {
         try {
             // Prepare SQL statement to fetch attendance data for the specified event ID
-            $sql = "SELECT * FROM attendance WHERE event_id = ?";
+            $sql = "SELECT * FROM registrants WHERE event_id = ?";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$eventId]);
             

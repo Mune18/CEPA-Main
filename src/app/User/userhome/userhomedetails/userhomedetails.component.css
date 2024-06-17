@@ -44,6 +44,26 @@ body {
 .Register:hover {
     background-color: #0056b3;
 }
+
+.Register_Event{
+    height: 50px;
+    width: 150px;
+    background-color: #007bff;
+    box-shadow: 5px 6px 7px 1px #afadad;
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    margin: 10px;
+    float: right; /* Adjusted margin-left to float */
+    margin-top: 10px; /* Changed margin-top value */
+    bottom: 0px;
+}
+
+.Register_Event:hover{
+    background-color: #0056b3;
+}
+
 .description{
     margin: 20px;
 }

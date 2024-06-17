@@ -318,33 +318,40 @@ public function sendEmail($data, $template = 'default') {
 }
 
 
-    public function submit_attendance($data) {
+    public function submit_registration($data) {
+        // Check if the participant is already registered for the event
+        if ($this->isAlreadyRegistered($data->id, $data->event_id)) {
+            return json_encode([
+                "status" => "error",
+                "message" => "Already registered for this event."
+            ]);
+        }
+
         // Check if participant exists, if not, insert them
         $participantId = $this->insertParticipant($data);
-    
-        // Construct the SQL query to insert attendance data
-        $sql = "INSERT INTO attendance (event_id, participant_id, attendance_date, l_name, f_name, address, email, p_number) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        
+
+        // Construct the SQL query to insert registration data
+        $sql = "INSERT INTO registrants (user_id, event_id, participant_id, l_name, f_name, email, idnumber) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+
         try {
             $statement = $this->pdo->prepare($sql);
             $statement->execute([
+                $data->id,
                 $data->event_id,
                 $participantId,
-                $data->attendance_date, // Add attendance date to the execution array
-                $data->l_name,
-                $data->f_name,
-                $data->address,
+                $data->lastname,
+                $data->firstname,
                 $data->email,
-                $data->p_number
+                $data->idnumber
             ]);
-            
+
             // Return a success message in JSON format
             return json_encode([
                 "status" => "success",
-                "message" => "Successfully submitted attendance."
+                "message" => "Successfully registered for the event."
             ]);
-        } catch(\PDOException $e) {
+        } catch (\PDOException $e) {
             // Return an error message in JSON format
             return json_encode([
                 "status" => "error",
@@ -353,53 +360,64 @@ public function sendEmail($data, $template = 'default') {
         }
     }
 
-    
+    private function isAlreadyRegistered($user_id, $event_id) {
+        $sql = "SELECT * FROM registrants WHERE user_id = ? AND event_id = ?";
+
+        try {
+            $statement = $this->pdo->prepare($sql);
+            $statement->execute([$user_id, $event_id]);
+            return $statement->fetch(PDO::FETCH_ASSOC) !== false;
+        } catch (\PDOException $e) {
+            // Handle query error
+            return false;
+        }
+    }
+
     private function insertParticipant($data) {
-        // Check if the participant already exists by name and email
-        $existingParticipant = $this->getParticipantByNameAndEmail($data->f_name, $data->l_name, $data->email);
+        // Check if the participant already exists by user_id
+        $existingParticipant = $this->getParticipantByUserId($data->id);
     
         if ($existingParticipant) {
             // Participant already exists, return their ID
             return $existingParticipant['participant_id'];
         } else {
             // Participant doesn't exist, insert them and return their ID
-            $sql = "INSERT INTO participants (first_name, last_name, email, phone_number, address) 
+            $sql = "INSERT INTO participants (first_name, last_name, email, idnumber, user_id) 
                     VALUES (?, ?, ?, ?, ?)";
-            
+    
             try {
                 $statement = $this->pdo->prepare($sql);
                 $statement->execute([
-                    $data->f_name,
-                    $data->l_name,
+                    $data->firstname,
+                    $data->lastname,
                     $data->email,
-                    $data->p_number,
-                    $data->address
+                    $data->idnumber,
+                    $data->id // user_id field
                 ]);
-        
+    
                 // Return the auto-generated participant ID
                 return $this->pdo->lastInsertId();
             } catch(\PDOException $e) {
                 // Handle participant insertion error
-                // For simplicity, you can return null here or handle the error as needed
                 return null;
             }
         }
-    }
+    }    
     
-    private function getParticipantByNameAndEmail($firstName, $lastName, $email) {
-        // Check if the participant already exists by name and email
-        $sql = "SELECT participant_id FROM participants WHERE first_name = ? AND last_name = ? AND email = ?";
-        
+
+    private function getParticipantByUserId($user_id) {
+        $sql = "SELECT * FROM participants WHERE user_id = ?";
+    
         try {
             $statement = $this->pdo->prepare($sql);
-            $statement->execute([$firstName, $lastName, $email]);
+            $statement->execute([$user_id]);
             return $statement->fetch(PDO::FETCH_ASSOC);
         } catch(\PDOException $e) {
-            // Handle error
+            // Handle participant fetch error
             return null;
         }
     }
-
+    
     public function update_event($eventId, $data) {
         $sql = "UPDATE events SET event_name=?, event_date=?, event_location=?, organizer=?, description=? WHERE event_id=?";
         

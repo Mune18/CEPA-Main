@@ -11,6 +11,7 @@ export class DataService {
   // private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
   private apiUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private userInfoSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null); // Add user info subject
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -202,6 +203,22 @@ export class DataService {
     return this.http.post<any>(`${this.apiUrl}insertuserinfo`, userInfo).pipe(
       catchError(this.handleError)
     );
+  }
+
+  sendUserInfo(userInfoToSend: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/registrationforevent`, userInfoToSend).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+  // Methods to handle user info
+  setUserInfo(userInfo: any): void {
+    this.userInfoSubject.next(userInfo);
+  }
+
+  getUserInfo(): Observable<any> {
+    return this.userInfoSubject.asObservable();
   }
 
   // Error Handling

@@ -19,6 +19,9 @@
     
     // Allow specific headers
     header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
+
+    // Set Content-Type header to application/json for all responses
+    header('Content-Type: application/json');
     
     // Handle preflight requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
@@ -236,6 +239,7 @@
                             echo json_encode($post->register($data));
                         }
                         break;
+
                     case 'insertuserinfo':
                             if (is_null($data)) {
                             echo json_encode(["status" => "error", "message" => "Invalid JSON data"]);
@@ -243,7 +247,10 @@
                             echo json_encode($post->insert_user_info($data));
                         }
                         break;
-                
+
+                    case 'registrationforevent': // Handle registration request
+                        echo json_encode($post->submit_registration($data)); // Call method to submit registration for event
+                        break;
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";

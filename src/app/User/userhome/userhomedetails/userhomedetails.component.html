@@ -7,7 +7,7 @@
 <p><strong>Organizer:</strong> {{ data.organizer }}</p>
 </header>
 <mat-tab-group>
-    <mat-tab label="Attendance">
+    <mat-tab label="Attendees">
         <div class="mat-elevation-z8">
         <mat-table [dataSource]="attendanceData">
             <!-- Last Name Column -->
@@ -36,13 +36,16 @@
         </div>
     </mat-tab>
     <mat-tab label="Register">
+        <button class="Register_Event" (click)="registerForEvent()">Register</button>
+    </mat-tab>      
+    <mat-tab label="Attendance">
         <p class="description"><strong>Description:</strong> {{ data.description }}</p>
         <br>
         <div class="qrcode" *ngIf="qrCodeData">
             <qrcode [qrdata]="qrCodeData" [width]="200"></qrcode>
         </div>                         
-        <button class="Register" (click)="goToAttendance()">Register for this event</button>
-</mat-tab>
+        <button class="Register" (click)="goToAttendance()">Submit an attendance</button>
+    </mat-tab>
 </mat-tab-group> 
     </div>
 </body>

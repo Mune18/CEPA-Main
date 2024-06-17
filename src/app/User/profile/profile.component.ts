@@ -22,19 +22,26 @@ export class ProfileComponent implements OnInit {
   userInfo: any = {};
   userForm!: FormGroup;
 
-  constructor(private dataService: DataService, private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  constructor(
+    private dataService: DataService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     const userData = localStorage.getItem('currentUser');
     if (userData) {
       this.user = JSON.parse(userData);
+      delete this.user.password;  // Exclude password
 
       this.dataService.getUserDetails(this.user.id).subscribe(
         (userDetails: any) => {
-          this.user = { ...this.user, ...userDetails };
+          const { password, ...detailsWithoutPassword } = userDetails;  // Exclude password
+          this.user = { ...this.user, ...detailsWithoutPassword };
           this.dataService.getUserAddDetails(this.user.id).subscribe(
             (userInfo: any) => {
               this.userInfo = userInfo;
+              this.dataService.setUserInfo(userInfo); // Set user info in shared service
               this.initializeForm(); // Initialize form after fetching user info
             },
             (error) => {
@@ -75,10 +82,12 @@ export class ProfileComponent implements OnInit {
         (response: any) => {
           console.log('User info inserted/updated successfully', response);
           this.snackBar.open('User info updated successfully', 'Close', { duration: 3000 });
+          this.dataService.setUserInfo(userInfo); // Update user info in shared service
           // Fetch and display the updated data
           this.dataService.getUserAddDetails(this.user.id).subscribe(
             (updatedUserInfo: any) => {
               this.userInfo = updatedUserInfo;
+              this.dataService.setUserInfo(updatedUserInfo); // Update user info in shared service
               this.initializeForm(); // Reinitialize form with updated data
             },
             (error) => {
