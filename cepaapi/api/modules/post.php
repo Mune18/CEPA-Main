@@ -331,8 +331,8 @@ public function sendEmail($data, $template = 'default') {
         $participantId = $this->insertParticipant($data);
 
         // Construct the SQL query to insert registration data
-        $sql = "INSERT INTO registrants (user_id, event_id, participant_id, l_name, f_name, email, idnumber) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO registrants (user_id, event_id, participant_id, l_name, f_name, email, idnumber, gender) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             $statement = $this->pdo->prepare($sql);
@@ -343,7 +343,8 @@ public function sendEmail($data, $template = 'default') {
                 $data->lastname,
                 $data->firstname,
                 $data->email,
-                $data->idnumber
+                $data->idnumber,
+                $data->gender
             ]);
 
             // Return a success message in JSON format
@@ -590,5 +591,4 @@ public function sendEmail($data, $template = 'default') {
             return array('status' => 'error', 'message' => $e->getMessage());
         }
     }
-    
 }

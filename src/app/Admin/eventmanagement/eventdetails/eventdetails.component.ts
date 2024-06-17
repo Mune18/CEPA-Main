@@ -21,7 +21,7 @@ import { DataService } from '../../../service/data.service';
 })
 export class EventdetailsComponent {
   attendanceData: any[] = [];
-  displayedColumns: string[] = ['l_name', 'f_name', 'email'];
+  displayedColumns: string[] = ['name', 'email', 'gender'];
   qrCodeData: string | null = null; // Variable to hold QR code data
   updateForm: FormGroup;
   minDate: Date = new Date(); 
