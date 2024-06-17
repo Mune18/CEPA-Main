@@ -223,7 +223,12 @@ class Get extends GlobalMethods{
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$userId]);
             $userDetails = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+    
+            // Unset the password field
+            if ($userDetails) {
+                unset($userDetails['password']);
+            }
+    
             return $userDetails;
         } catch(PDOException $e) {
             // Handle any potential errors
@@ -232,7 +237,7 @@ class Get extends GlobalMethods{
                 "message" => $e->getMessage()
             ];
         }
-    }
+    }    
     
     public function get_additional_user_info($userId) {
         try {
