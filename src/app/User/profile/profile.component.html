@@ -87,7 +87,7 @@
   </div>
   
   <div class="rectangle">
-    <h2>Events Joined</h2>
+    <h2>Events I'm Registered To</h2>
     <table class="event-table">
       <thead>
         <tr>
@@ -98,15 +98,16 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Populate table rows with event details -->
-        <tr>
-          <td>Event Name</td>
-          <td>June 11, 2024</td>
-          <td>XYZ Events</td>
-          <td>City Hall Auditorium</td>
+        <tr *ngFor="let event of eventsJoined">
+          <td>{{ event.event_name }}</td>
+          <td>{{ event.event_date }}</td>
+          <td>{{ event.organizer }}</td>
+          <td>{{ event.event_location }}</td>
         </tr>
-        <!-- Add more rows as needed -->
+        <tr *ngIf="eventsJoined.length === 0">
+          <td colspan="4">No events joined.</td>
+        </tr>
       </tbody>
     </table>
-  </div>
+  </div>  
 </body>

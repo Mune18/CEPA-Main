@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   user: any = {};
   userInfo: any = {};
   userForm!: FormGroup;
+  eventsJoined: any[] = []; // Initialize as an empty array
 
   constructor(
     private dataService: DataService,
@@ -32,12 +33,14 @@ export class ProfileComponent implements OnInit {
     const userData = localStorage.getItem('currentUser');
     if (userData) {
       this.user = JSON.parse(userData);
-      delete this.user.password;  // Exclude password
-
+  
+      // Fetch user details and additional user info
       this.dataService.getUserDetails(this.user.id).subscribe(
         (userDetails: any) => {
           const { password, ...detailsWithoutPassword } = userDetails;  // Exclude password
           this.user = { ...this.user, ...detailsWithoutPassword };
+  
+          // Fetch additional user info
           this.dataService.getUserAddDetails(this.user.id).subscribe(
             (userInfo: any) => {
               this.userInfo = userInfo;
@@ -48,6 +51,16 @@ export class ProfileComponent implements OnInit {
               console.error('Error fetching additional user details:', error);
             }
           );
+  
+          this.dataService.getEventsJoined(this.user.id).subscribe(
+            (events: any[]) => {
+                this.eventsJoined = events;
+                console.log('Events Joined:', this.eventsJoined);
+            },
+            (error) => {
+                console.error('Error fetching events joined:', error);
+            }
+          );        
         },
         (error) => {
           console.error('Error fetching user details:', error);
@@ -83,6 +96,7 @@ export class ProfileComponent implements OnInit {
           console.log('User info inserted/updated successfully', response);
           this.snackBar.open('User info updated successfully', 'Close', { duration: 3000 });
           this.dataService.setUserInfo(userInfo); // Update user info in shared service
+
           // Fetch and display the updated data
           this.dataService.getUserAddDetails(this.user.id).subscribe(
             (updatedUserInfo: any) => {

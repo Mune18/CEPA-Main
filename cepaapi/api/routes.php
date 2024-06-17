@@ -138,8 +138,18 @@
                         http_response_code(400); // Bad request status code
                     }
                     break;
-                    
 
+                case 'geteventsjoined':
+                    if (isset($request[1])) {
+                        $userId = $request[1]; // Extract the user ID from the request
+                        echo json_encode($get->getEventsJoined($userId)); // Call the getEventsJoined() method with the user ID
+                    } else {
+                        // Handle the case where the user ID is not provided
+                        echo json_encode(["status" => "error", "message" => "User ID not provided"]);
+                        http_response_code(400); // Bad request status code
+                    }
+                    break;
+                    
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";
@@ -251,6 +261,7 @@
                     case 'registrationforevent': // Handle registration request
                         echo json_encode($post->submit_registration($data)); // Call method to submit registration for event
                         break;
+                        
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";

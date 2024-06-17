@@ -199,6 +199,25 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}getuseradddetails/${userId}`);
   }
 
+  getEventsJoined(userId: number): Observable<Event[]> {
+    return this.http.get<any[]>(`${this.apiUrl}geteventsjoined/${userId}`).pipe(
+      map((response: any) => {
+        if (response.status === 'success') {
+          return response.data.map((event: any) => ({
+            event_id: event.event_id,
+            event_name: event.event_name,
+            event_date: event.event_date,
+            event_location: event.event_location,
+            organizer: event.organizer
+          }));
+        } else {
+          throw new Error('Failed to fetch events joined');
+        }
+      })
+    );
+  }
+
+
   insertUserInfo(userInfo: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}insertuserinfo`, userInfo).pipe(
       catchError(this.handleError)
@@ -210,7 +229,6 @@ export class DataService {
       catchError(this.handleError)
     );
   }
-
 
   // Methods to handle user info
   setUserInfo(userInfo: any): void {

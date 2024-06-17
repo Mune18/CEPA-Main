@@ -83,8 +83,8 @@ class Get extends GlobalMethods{
     
     public function get_attendees($eventId) {
         try {
-            // Prepare SQL statement to fetch attendance data for the specified event ID
-            $sql = "SELECT * FROM attendance WHERE event_id = ?";
+            // Prepare SQL statement to fetch registrants data for the specified event ID
+            $sql = "SELECT * FROM registrants WHERE event_id = ?";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([$eventId]);
             
@@ -128,7 +128,7 @@ class Get extends GlobalMethods{
         try {
             $sql = "SELECT p.first_name, p.last_name, e.event_name, e.event_date, e.event_location, e.organizer
                     FROM participants p
-                    JOIN attendance a ON p.participant_id = a.participant_id
+                    JOIN registrants a ON p.participant_id = a.participant_id
                     JOIN events e ON a.event_id = e.event_id
                     WHERE p.first_name LIKE ? OR p.last_name LIKE ?";
             $stmt = $this->pdo->prepare($sql);
@@ -165,7 +165,7 @@ class Get extends GlobalMethods{
         try {
             $sql = "SELECT e.event_id, e.event_name, e.event_date, e.event_location, e.organizer, COUNT(a.participant_id) AS participant_count
                     FROM events e
-                    LEFT JOIN attendance a ON e.event_id = a.event_id
+                    LEFT JOIN registrants a ON e.event_id = a.event_id
                     GROUP BY e.event_id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute();
@@ -196,7 +196,7 @@ class Get extends GlobalMethods{
         try {
             $query = "SELECT e.event_name, COUNT(a.participant_id) as participant_count 
                     FROM events e 
-                    JOIN attendance a ON e.event_id = a.event_id 
+                    JOIN registrants a ON e.event_id = a.event_id 
                     GROUP BY e.event_name 
                     ORDER BY participant_count DESC 
                     LIMIT 1";
@@ -249,4 +249,49 @@ class Get extends GlobalMethods{
             ];
         }
     }    
+
+    public function getEventsJoined($userId) {
+        try {
+            $sql = "SELECT e.event_id, e.event_name, e.event_date, e.event_location, e.organizer
+                    FROM events e
+                    JOIN registrants r ON e.event_id = r.event_id
+                    JOIN participants p ON r.participant_id = p.participant_id
+                    WHERE p.user_id = ?";
+    
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$userId]);
+    
+            // Check for errors
+            $errorInfo = $stmt->errorInfo();
+            if ($errorInfo[0] !== '00000') {
+                throw new PDOException("PDO Error: " . $errorInfo[2]);
+            }
+    
+            // Fetch all rows
+            $eventsJoined = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            // Return fetched events or handle empty result case
+            if (empty($eventsJoined)) {
+                return [
+                    "status" => "success",
+                    "message" => "No events joined by user",
+                    "data" => []
+                ];
+            } else {
+                return [
+                    "status" => "success",
+                    "data" => $eventsJoined
+                ];
+            }
+        } catch(PDOException $e) {
+            // Log the error for debugging purposes
+            error_log("PDO Exception: " . $e->getMessage());
+    
+            // Return error response
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }      
 }
