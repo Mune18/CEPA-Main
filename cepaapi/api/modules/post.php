@@ -145,58 +145,6 @@ class Post extends GlobalMethods{
         }
     }
 
-      //Send Email no template
-    //  public function sendEmail($data){
-    //     // Check if $data is null
-    //     if ($data === null) {
-    //         return ['success' => false, 'message' => 'Data is null'];
-    //     }
-    
-    //     // Debug autoload
-    //     $mail = new PHPMailer(true);
-    
-    //     try {
-    //         // Configure SMTP settings
-    //         $mail->isSMTP();                                            //Send using SMTP
-    //         $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
-    //         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    //         $mail->Username   = 'cepa.appdev@gmail.com';                //SMTP username
-    //         $mail->Password   = 'iiot dgrb rlxw mcas';                  //SMTP password
-    //         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    //         $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-    
-    //         // Set email content
-    //         $mail->setFrom('cepa.appdev@gmail.com', 'CEPA');
-    
-    //         // Check if $data->to is set
-    //         if (isset($data->to)) {
-    //             $mail->addAddress($data->to);
-    //         } else {
-    //             return ['success' => false, 'message' => 'Recipient email is not provided'];
-    //         }
-    
-    //         // Check if $data->subject is set
-    //         if (isset($data->subject)) {
-    //             $mail->Subject = $data->subject;
-    //         } else {
-    //             return ['success' => false, 'message' => 'Email subject is not provided'];
-    //         }
-    
-    //         // Check if $data->message is set
-    //         if (isset($data->message)) {
-    //             $mail->Body = $data->message;
-    //             $mail->isHTML(true); // Set email as HTML
-    //         } else {
-    //             return ['success' => false, 'message' => 'Email message is not provided'];
-    //         }
-    
-    //         // Send email
-    //         $mail->send();
-    //         return ['success' => true, 'message' => 'Email sent successfully'];
-    //     } catch (Exception $e) {
-    //         return ['success' => false, 'message' => 'Failed to send email: ' . $mail->ErrorInfo];
-    //     }
-    // }
     
 // Enter public function below
 public function sendEmail($data, $template = 'default') {
@@ -591,4 +539,127 @@ public function sendEmail($data, $template = 'default') {
             return array('status' => 'error', 'message' => $e->getMessage());
         }
     }
+
+
+
+    public function submit_attendance() {
+        header('Content-Type: application/json');
+    
+        // Check if the request method is POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Check if all required fields are set in the POST data
+            $requiredFields = ['event_id', 'event_name', 'feedback', 'uploaded_by', 'status'];
+            foreach ($requiredFields as $field) {
+                if (!isset($_POST[$field])) {
+                    echo json_encode([
+                        'status' => 'error',
+                        'message' => 'Missing required field: ' . $field
+                    ]);
+                    exit; // Terminate script execution
+                }
+            }
+    
+            // Extract POST data
+            $eventId = $_POST['event_id'];
+            $eventName = $_POST['event_name'];
+            $feedback = $_POST['feedback'];
+            $uploadedBy = $_POST['uploaded_by'];
+            $status = $_POST['status'];
+            $attendanceProof = $_FILES['attendance_proof'];
+    
+            // Validate uploaded file
+            if ($attendanceProof['error'] !== UPLOAD_ERR_OK) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'File upload error: ' . $attendanceProof['error']
+                ]);
+                exit; // Terminate script execution
+            }
+    
+            // Process file upload with renamed filename
+            $originalFileName = basename($attendanceProof['name']);
+            $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+            $newFileName = $originalFileName . '_' . $uploadedBy . '.' . $fileExtension;
+    
+            $targetDir = "uploads/" . $eventName . "/";
+            $targetFile = $targetDir . $newFileName;
+    
+            // Create directory if it does not exist
+            if (!file_exists($targetDir)) {
+                mkdir($targetDir, 0777, true);
+            }
+    
+            // Check if file already exists
+            if (file_exists($targetFile)) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'File already exists.'
+                ]);
+                exit; // Terminate script execution
+            }
+    
+            // Check file size
+            if ($attendanceProof['size'] > 10000000) { // 10MB limit
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'File size exceeds limit.'
+                ]);
+                exit; // Terminate script execution
+            }
+    
+            // Allow certain file formats
+            $allowedTypes = ['pdf', 'gif', 'jpg', 'jpeg', 'png'];
+            if (!in_array($fileExtension, $allowedTypes)) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedTypes)
+                ]);
+                exit; // Terminate script execution
+            }
+    
+            // Move uploaded file to target directory with new filename
+            if (!move_uploaded_file($attendanceProof['tmp_name'], $targetFile)) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Failed to move uploaded file.'
+                ]);
+                exit; // Terminate script execution
+            }
+    
+            // Check if attendance already exists with pending status
+            $sqlCheck = "SELECT id, status FROM attendance_proof WHERE event_id = ? AND uploaded_by = ?";
+            $stmtCheck = $this->pdo->prepare($sqlCheck);
+            $stmtCheck->execute([$eventId, $uploadedBy]);
+            $existingAttendance = $stmtCheck->fetch(PDO::FETCH_ASSOC);
+    
+            if ($existingAttendance && $existingAttendance['status'] === 'pending') {
+                // Update existing pending attendance
+                $sqlUpdate = "UPDATE attendance_proof SET event_name = ?, feedback = ?, attendance_proof = ?, status = ? WHERE id = ?";
+                $stmtUpdate = $this->pdo->prepare($sqlUpdate);
+                $stmtUpdate->execute([$eventName, $feedback, $targetFile, $status, $existingAttendance['id']]);
+            } else {
+                // Insert new attendance data
+                $sqlInsert= "INSERT INTO attendance_proof (event_id, event_name, feedback, uploaded_by, attendance_proof, status) 
+                            VALUES (?, ?, ?, ?, ?, ?)";
+                $stmtInsert = $this->pdo->prepare($sqlInsert);
+                $stmtInsert->execute([$eventId, $eventName, $feedback, $uploadedBy, $targetFile, $status]);
+            }
+    
+            // Output JSON response for success
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Attendance submitted successfully.'
+            ]);
+    
+            exit; // Ensure script termination after successful submission
+        } else {
+            // Handle invalid request method
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Invalid request method. Only POST requests are allowed.'
+            ]);
+            exit; // Terminate script execution
+        }
+    }
+    
 }

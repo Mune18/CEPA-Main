@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -83,18 +83,16 @@ export class DataService {
   }
 
   // AttendanceService Methods
-  submitAttendance(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}attendance`, data).pipe(
-      catchError(error => {
-        if (error.status === 409) {
-          return throwError("Attendance for this event has already been submitted.");
-        } else {
-          return throwError("Failed to submit attendance");
-        }
+  submitAttendance(FormData: any): Observable<any> {
+    // console.log('this is the data', FormData); // Ensure data is populated correctly here
+    return this.http.post<any>(`${this.apiUrl}attendance`, FormData).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error submitting attendance:', error);
+        return throwError('Error submitting attendance. Please try again later.');
       })
     );
   }
-
+  
   getAttendanceForEvent(eventId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}getattendees/${eventId}`);
   }

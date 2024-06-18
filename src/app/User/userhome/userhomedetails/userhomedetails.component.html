@@ -1,51 +1,53 @@
 <body>
     <div class="container1">
-<header>
-    <p class="event-name">{{ data.event_name }}</p>
-<p><strong>Event Date:</strong> {{ data.event_date }}</p>
-<p><strong>Location:</strong> {{ data.event_location }}</p>
-<p><strong>Organizer:</strong> {{ data.organizer }}</p>
-</header>
-<mat-tab-group>
-    <mat-tab label="Registrants">
-        <div class="mat-elevation-z8">
-        <mat-table [dataSource]="attendanceData">
-            <!-- Last Name Column -->
-            <ng-container matColumnDef="l_name">
-              <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
-              <mat-cell *matCellDef="let attendee">{{ attendee.l_name }}</mat-cell>
-            </ng-container>
-    
-            <!-- First Name Column -->
-            <ng-container matColumnDef="f_name">
-              <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
-              <mat-cell *matCellDef="let attendee">{{ attendee.f_name }}</mat-cell>
-            </ng-container>
-    
-            <!-- Email Column -->
-            <ng-container matColumnDef="email">
-              <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-              <mat-cell *matCellDef="let attendee">{{ attendee.email }}</mat-cell>
-            </ng-container>
-    
-            <!-- Add more columns if needed -->
-    
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        </div>
-    </mat-tab>
-    <mat-tab label="Register">
-        <button class="Register_Event" (click)="registerForEvent()">Register</button>
-    </mat-tab>      
-    <mat-tab label="Attendance">
-        <p class="description"><strong>Description:</strong> {{ data.description }}</p>
-        <br>
-        <div class="qrcode" *ngIf="qrCodeData">
-            <qrcode [qrdata]="qrCodeData" [width]="200"></qrcode>
-        </div>                         
-        <button class="Register" (click)="goToAttendance()">Submit an attendance</button>
-    </mat-tab>
-</mat-tab-group> 
+        <header>
+            <p class="event-name">{{ data.event_name }}</p>
+            <p><strong>Event Date:</strong> {{ data.event_date }}</p>
+            <p><strong>Location:</strong> {{ data.event_location }}</p>
+            <p><strong>Organizer:</strong> {{ data.organizer }}</p>
+        </header>
+        <mat-tab-group>
+            <mat-tab label="Registrants">
+                <div class="registrant-container">
+                    <div class="registrant">
+                        <mat-table [dataSource]="attendanceData">
+                            <!-- Last Name Column -->
+                            <ng-container matColumnDef="l_name">
+                                <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+                                <mat-cell *matCellDef="let attendee">{{ attendee.l_name }}</mat-cell>
+                            </ng-container>
+        
+                            <!-- First Name Column -->
+                            <ng-container matColumnDef="f_name">
+                                <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+                                <mat-cell *matCellDef="let attendee">{{ attendee.f_name }}</mat-cell>
+                            </ng-container>
+        
+                            <!-- Email Column -->
+                            <ng-container matColumnDef="email">
+                                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                                <mat-cell *matCellDef="let attendee">{{ attendee.email }}</mat-cell>
+                            </ng-container>
+        
+                            <!-- Add more columns if needed -->
+        
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        </mat-table>
+                    </div>
+                </div>
+                <button class="Register_Event" (click)="registerForEvent()">Register</button>
+            </mat-tab>
+            <mat-tab label="Attendees">
+            </mat-tab>
+            <mat-tab label="Attendance">
+                <p class="description"><strong>Description:</strong> {{ data.description }}</p>
+                <br>
+                <div class="qrcode" *ngIf="qrCodeData">
+                    <qrcode [qrdata]="qrCodeData" [width]="200"></qrcode>
+                </div>
+                <button class="Register" (click)="goToAttendance()">Submit an attendance</button>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </body>

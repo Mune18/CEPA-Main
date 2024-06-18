@@ -21,7 +21,7 @@
     header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
 
     // Set Content-Type header to application/json for all responses
-    header('Content-Type: application/json');
+    // header('Content-Type: application/json');
     
     // Handle preflight requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
@@ -185,7 +185,8 @@
                 case 'sendemail':
                         // Call the sendEmail method of the Post class
                         echo json_encode($post->sendEmail($data));
-                        break;
+
+                    break;
 
                 case 'attendance': // Handle attendance request
                     echo json_encode($post->submit_attendance($data)); // Call method to submit attendance
@@ -261,7 +262,7 @@
                     case 'registrationforevent': // Handle registration request
                         echo json_encode($post->submit_registration($data)); // Call method to submit registration for event
                         break;
-                        
+
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";

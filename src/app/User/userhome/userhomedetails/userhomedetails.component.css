@@ -20,8 +20,8 @@ body {
     height: 80vh; 
     padding: 12px 14px 0 12px;
     border-radius: 20px;
-    
 }
+
 .event-name {
     font-size: 24px; 
     margin-bottom: 20px;
@@ -37,15 +37,15 @@ body {
     border-radius: 9px;
     cursor: pointer;
     margin: 10px;
-    float: right; /* Adjusted margin-left to float */
-    margin-top: 10px; /* Changed margin-top value */
+    float: right;
+    margin-top: 10px;
 }
 
 .Register:hover {
     background-color: #0056b3;
 }
 
-.Register_Event{
+.Register_Event {
     height: 50px;
     width: 150px;
     background-color: #007bff;
@@ -55,55 +55,60 @@ body {
     border-radius: 9px;
     cursor: pointer;
     margin: 10px;
-    float: right; /* Adjusted margin-left to float */
-    margin-top: 10px; /* Changed margin-top value */
+    float: right;
+    margin-top: 10px;
     bottom: 0px;
 }
 
-.Register_Event:hover{
+.Register_Event:hover {
     background-color: #0056b3;
 }
 
-.description{
+.description {
     margin: 20px;
 }
 
 .qrcode {
-    margin: auto; /* Center the QR code horizontally */
-    width: fit-content; /* Set the width to fit the content */
-    height: fit-content; /* Set the height to fit the content */
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+}
+
+.registrant-container {
+    max-height: 400px; /* Adjust height as needed */
+    overflow-y: auto;
 }
 
 @media only screen and (max-width: 690px) {
     header {
-        width: auto; /* Adjust width to fill the screen */
-        padding: 1em; /* Reduce padding for smaller screens */
-        background-size: 250px; /* Adjust background size */
+        width: auto;
+        padding: 1em;
+        background-size: 250px;
         background-position: calc(100% - 11px) calc(50% - 6px); 
         background-size: 100px;
-        margin-bottom: 10px; /* Reduce margin bottom */
+        margin-bottom: 10px;
     }
 
     body {
-        padding: 10px; /* Increase padding for smaller screens */
+        padding: 10px;
     }
 
     .event-name {
-        font-size: 20px; /* Reduce font size for smaller screens */
-        margin-bottom: 10px; /* Reduce margin bottom */
+        font-size: 20px;
+        margin-bottom: 10px;
     }
 
     .Register {
-        width: 120px; /* Reduce button width */
-        margin: 5px; /* Reduce button margin */
+        width: 120px;
+        margin: 5px;
     }
 
     .description {
-        margin: 10px; /* Reduce margin for description */
+        margin: 10px;
     }
 
     .qrcode {
-        margin: auto; /* Center the QR code horizontally */
-        width: 80%; /* Reduce QR code width */
+        margin: auto;
+        width: 80%;
     }
 }

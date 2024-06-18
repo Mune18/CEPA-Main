@@ -1,20 +1,25 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { DataService } from '../service/data.service';
-import { Location } from '@angular/common'; // Import Location service
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-attendance',
   templateUrl: './attendance.component.html',
-  styleUrls: ['./attendance.component.css']
+  styleUrls: ['./attendance.component.css'],
+  standalone: true,
+  imports: [ReactiveFormsModule, MatSnackBarModule],
 })
 export class AttendanceComponent implements OnInit {
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   form!: FormGroup;
   eventId: string = '';
   eventName: string = '';
+  userInfo: any = {};
+  userName: string = ''; // Change to string type
 
   constructor(
     private snackBar: MatSnackBar,
@@ -25,29 +30,57 @@ export class AttendanceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.initializeForm(); // Initialize the form
-
+    this.initializeForm();
+  
     this.route.paramMap.subscribe(params => {
-        this.eventId = params.get('eventId')!;
-        console.log('Event ID:', this.eventId); // Log eventId
-        this.fetchEventDetails(this.eventId);
+      this.eventId = params.get('eventId')!;
+      // console.log('Event ID:', this.eventId);
+      this.fetchEventDetails(this.eventId);
+  
+      // Fetch user details
+      const userData = localStorage.getItem('currentUser');
+      if (userData) {
+        const user = JSON.parse(userData);
+        this.dataService.getUserDetails(user.id).subscribe(
+          (userDetails: any) => {
+            this.userInfo = userDetails;
+            this.userName = `${userDetails.firstname} ${userDetails.lastname}`; // Assuming firstname and lastname are fields in userDetails
+  
+            // Fetch event details
+            this.dataService.getEventDetails(this.eventId).subscribe(
+              (eventDetails: any) => {
+                const firstEvent = eventDetails?.payload?.find((event: any) => event.event_id === parseInt(this.eventId, 10));
+                if (firstEvent && 'event_name' in firstEvent) {
+                  this.eventName = firstEvent.event_name;
+                } else {
+                  console.error('Event name property not found in event details.');
+                }
+              },
+              (error) => {
+                console.error('Error fetching event details:', error);
+              }
+            );
+          },
+          (error) => {
+            console.error('Error fetching user details:', error);
+          }
+        );
+      }
     });
   }
+  
 
   initializeForm() {
     this.form = this.fb.group({
-        l_name: ['', Validators.required],
-        f_name: ['', Validators.required],
-        address: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        p_number: ['', Validators.required]
+        feedback: ['', Validators.required],
+        attendanceProof: [''] // Adjust validators or additional processing as needed
     });
   }
 
   fetchEventDetails(eventId: string) {
     this.dataService.getEventDetails(eventId).subscribe(
         (eventDetails: any) => {
-            console.log('Event Details:', eventDetails); // Log event details
+            // console.log('Event Details:', eventDetails); // Log event details
             const firstEvent = eventDetails?.payload?.find((event: any) => event.event_id === parseInt(eventId));
             if (firstEvent && 'event_name' in firstEvent) {
                 this.eventName = firstEvent.event_name;
@@ -60,59 +93,63 @@ export class AttendanceComponent implements OnInit {
             // Handle error, show error message, etc.
         }
     );
-}
+    
+  }
 
-
-onSubmit() {
+  onSubmit() {
     if (this.form.invalid) {
       this.openSnackBar('Please ensure all fields are filled out correctly.');
       return;
     }
   
-    const data = {
-      event_id: this.eventId,
-      l_name: this.form.value.l_name,
-      f_name: this.form.value.f_name,
-      address: this.form.value.address,
-      email: this.form.value.email,
-      p_number: this.form.value.p_number,
-      attendance_date: new Date().toISOString().slice(0, 10)
-    };
+    const formData = new FormData();
+    formData.append('event_id', this.eventId);
+    formData.append('event_name', this.eventName); // Add event_name to FormData
+    formData.append('feedback', this.form.value.feedback);
+    formData.append('status', 'pending'); // Add status field
+    
+    const fileInput = this.fileInput.nativeElement;
+    if (fileInput.files.length > 0) {
+      formData.append('attendance_proof', fileInput.files[0]);
+    } else {
+      formData.append('attendance_proof', '');
+    }
   
-    this.dataService.submitAttendance(data).subscribe(
+    formData.append('uploaded_by', this.userName); // Add uploaded_by as the user's name
+
+    // Log FormData key-value pairs
+    // this.logFormData(formData);
+  
+    this.dataService.submitAttendance(formData).subscribe(
       response => {
-        // console.log('Attendance submitted successfully:', response);
         this.form.reset(); // Reset the form
-        this.openSnackBar('Attendance submitted successfully'); // Display success message
+        this.openSnackBar('Feedback submitted successfully'); // Display success message
       },
       error => {
-        // console.error('Failed to submit attendance:', error);
-        if (error === "Attendance for this event has already been submitted.") {
+        if (error === "Feedback submission failed.") {
           this.openSnackBar(error);
           this.form.reset();
         } else {
-          this.openSnackBar('Failed to submit attendance');
+          this.openSnackBar('Failed to submit feedback');
         }
       }
     );
-  }  
+  }
 
+  // logFormData(formData: any) {
+  //   for (const pair of formData.entries()) {
+  //     console.log(`${pair[0]}: ${pair[1]}`);
+  //   }
+  // }
+  
 
-openSnackBar(message: string) {
+  openSnackBar(message: string) {
     this.snackBar.open(message, 'Close', {
         duration: 3000, // Snackbar duration in milliseconds
     });
-}
-
-
+  }
 
   goBack() {
     this.location.back(); // Use the Location service to go back
   }
 }
-
-@NgModule({
-  imports: [ReactiveFormsModule, MatSnackBarModule],
-  declarations: [AttendanceComponent]
-})
-export class AttendanceModule {}
