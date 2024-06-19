@@ -17,6 +17,7 @@ import { AdminFeedbackComponent } from './Admin/feedback/feedback.component';
 import { UserloginComponent } from './User/userlogin/userlogin.component';
 import { UserAuthGuard } from './service/login/userauth.guard';
 import { ProfileComponent } from './User/profile/profile.component';
+import { ViewsubmissionComponent } from './viewsubmission/viewsubmission.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,10 @@ export const routes: Routes = [
     path: 'attendance/:eventId',
     component: AttendanceComponent,
     canActivate: [UserAuthGuard]
+  },
+  {
+    path: 'viewsubmission',
+    component: ViewsubmissionComponent,
   },
   {
     path: '',
@@ -91,6 +96,7 @@ export const routes: Routes = [
         path: 'feedback',
         component: AdminFeedbackComponent,
       },
+      
     ],
   },
   {

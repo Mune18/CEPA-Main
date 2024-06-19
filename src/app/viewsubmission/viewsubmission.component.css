@@ -1,0 +1,113 @@
+/* Global styles */
+body {
+    overflow: hidden; /* Example of global style */
+    background-color: #e4e9f7;
+    margin:0;
+    height: 100vh;
+}
+
+/* Navbar styles */
+.navbar {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav-button {
+    margin: 0 5px;
+}
+
+.nav-button mat-icon {
+    margin: 0 5px;
+}
+
+.nav-button:hover {
+    background-color: #386ab4;
+}
+
+/* Content container */
+.content-container {
+    margin-top:25px;
+    display: flex;
+    flex-wrap: wrap; /* Ensure it wraps correctly */
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.content-box {
+    flex: 1 1 60%; /* Adjust width as needed */
+   height: 50vh;
+    width: 85%; /* Limit maximum width */
+    background-color: #E5E4E2;
+    border-radius: 10px;
+    padding: 20px;
+    margin-right: 20px; /* Adjust margin between content and info */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.right-corner-info {
+    flex: 1 1 30%; /* Adjust width as needed */
+    min-width: 200px; /* Ensure minimum width */
+    
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.right-corner-info h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.right-corner-info h2:first-child {
+    margin-top: 10px; /* Top margin for the first heading */
+}
+
+.right-corner-info h2:last-child {
+    margin-bottom: 10px; /* Bottom margin for the last heading */
+}
+
+.right-corner-info mat-form-field {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.right-corner-info .message {
+    font-size: 14px;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.right-corner-info .character-count {
+    margin-top: 5px;
+}
+
+.right-corner-info .save-tip {
+    font-size: 14px;
+    margin-top: 15px;
+    color:grey;
+
+}
+
+.right-corner-info button {
+    margin-top: 20px;
+    width: 100%; /* Full width button */
+}
+.textarea{
+
+    height: 250px;
+    width: 99%;
+}
+.blue-container {
+    width: 62.4%;
+    background-color: #ffffff;
+    height: 250px;
+    display: flex;  
+    margin-top: -5%;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
