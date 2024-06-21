@@ -10,12 +10,13 @@ export class UserAuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
     const isLoggedIn = this.dataService.isLoggedIn();
+    const role = this.dataService.getRole();
 
-    if (state.url.startsWith('/user/login') && isLoggedIn) {
+    if (state.url.startsWith('/user/login') && isLoggedIn && role === 'Student') {
       return this.router.parseUrl('/user/home');
     }
 
-    if (isLoggedIn) {
+    if (isLoggedIn && role === 'Student') {
       return true;
     }
 

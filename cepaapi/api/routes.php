@@ -149,6 +149,23 @@
                         http_response_code(400); // Bad request status code
                     }
                     break;
+                
+                case 'getsubmission':
+                    if (isset($_GET['event_id']) && isset($_GET['user_id'])) {
+                        $eventId = $_GET['event_id'];
+                        $userId = $_GET['user_id'];
+                        try {
+                            $submissionData = $get->get_submission($eventId, $userId);
+                            echo json_encode($submissionData);
+                        } catch (Exception $e) {
+                            echo json_encode(["error" => "Failed to retrieve submission data: " . $e->getMessage()]);
+                            http_response_code(500); // Internal Server Error
+                        }
+                    } else {
+                        echo json_encode(["status" => "error", "message" => "Event ID or User ID not provided"]);
+                        http_response_code(400); // Bad request status code
+                    }                
+                    break;
                     
                 default:
                     // Return a 403 response for unsupported requests
@@ -185,7 +202,6 @@
                 case 'sendemail':
                         // Call the sendEmail method of the Post class
                         echo json_encode($post->sendEmail($data));
-
                     break;
 
                 case 'attendance': // Handle attendance request

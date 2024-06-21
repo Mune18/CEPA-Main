@@ -299,4 +299,30 @@ class Get extends GlobalMethods{
             ];
         }
     }      
+
+    public function get_submission($eventId, $userId) {
+        try {
+            $sql = "SELECT event_id, event_name, feedback, attendance_proof, status FROM attendance_proof WHERE event_id = ? AND user_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$eventId, $userId]);
+            $submission = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($submission) {
+                return [
+                    'status' => 'success',
+                    'data' => $submission
+                ];
+            } else {
+                return [
+                    'status' => 'error',
+                    'message' => 'No submission found.'
+                ];
+            }
+        } catch (PDOException $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+    }
 }

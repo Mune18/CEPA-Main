@@ -10,10 +10,23 @@
       </div>
       <div class="form-group">
         <label for="attendanceProof">Proof of Attendance (Image)</label>
-        <input #fileInput type="file" formControlName="attendanceProof" class="form-control-file" >
+        <input #fileInput type="file" formControlName="attendanceProof" class="form-control-file">
       </div>
+      
+      <!-- Use ng-container to conditionally render the "Previously Submitted" section -->
+      <ng-container *ngIf="submittedData">
+        <div>
+          <h4>Previously Submitted:</h4>
+          <!-- <p><strong>Feedback:</strong> {{ submittedData.feedback }}</p> -->
+          <p><strong>Proof of Attendance:</strong></p>
+          <img [src]="getImageUrl()" alt="Proof of Attendance" class="img-fluid" loading="eager" *ngIf="submittedData.attendance_proof">
+          <p><strong>Status:</strong>{{ submittedData.status }}</p>
+          <!-- <p><strong>Feedback:</strong> </p> -->
+        </div>
+      </ng-container>
+      
       <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
       <button type="button" class="btn btn-secondary" (click)="goBack()">Back</button> <!-- Back button -->
     </form>
-  </div>  
+  </div>
 </body>

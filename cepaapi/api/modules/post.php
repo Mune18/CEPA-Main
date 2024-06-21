@@ -545,121 +545,105 @@ public function sendEmail($data, $template = 'default') {
     public function submit_attendance() {
         header('Content-Type: application/json');
     
-        // Check if the request method is POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Check if all required fields are set in the POST data
-            $requiredFields = ['event_id', 'event_name', 'feedback', 'uploaded_by', 'status'];
+            $requiredFields = ['event_id', 'event_name', 'feedback', 'uploaded_by', 'status', 'user_id'];
             foreach ($requiredFields as $field) {
                 if (!isset($_POST[$field])) {
                     echo json_encode([
                         'status' => 'error',
                         'message' => 'Missing required field: ' . $field
                     ]);
-                    exit; // Terminate script execution
+                    exit;
                 }
             }
     
-            // Extract POST data
             $eventId = $_POST['event_id'];
             $eventName = $_POST['event_name'];
             $feedback = $_POST['feedback'];
             $uploadedBy = $_POST['uploaded_by'];
             $status = $_POST['status'];
+            $userId = $_POST['user_id']; // Extract user_id
             $attendanceProof = $_FILES['attendance_proof'];
     
-            // Validate uploaded file
             if ($attendanceProof['error'] !== UPLOAD_ERR_OK) {
                 echo json_encode([
                     'status' => 'error',
                     'message' => 'File upload error: ' . $attendanceProof['error']
                 ]);
-                exit; // Terminate script execution
+                exit;
             }
     
-            // Process file upload with renamed filename
             $originalFileName = basename($attendanceProof['name']);
             $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
-            $newFileName = $originalFileName . '_' . $uploadedBy . '.' . $fileExtension;
+            $newFileName = $originalFileName; // Initialize with original file name
     
             $targetDir = "uploads/" . $eventName . "/";
             $targetFile = $targetDir . $newFileName;
     
-            // Create directory if it does not exist
             if (!file_exists($targetDir)) {
                 mkdir($targetDir, 0777, true);
             }
     
-            // Check if file already exists
-            if (file_exists($targetFile)) {
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'File already exists.'
-                ]);
-                exit; // Terminate script execution
+            // Handle file name collision
+            $collisionIndex = 1;
+            while (file_exists($targetFile)) {
+                $newFileName = pathinfo($originalFileName, PATHINFO_FILENAME) . '_' . $collisionIndex . '.' . $fileExtension;
+                $targetFile = $targetDir . $newFileName;
+                $collisionIndex++;
             }
     
-            // Check file size
-            if ($attendanceProof['size'] > 10000000) { // 10MB limit
+            if ($attendanceProof['size'] > 10000000) {
                 echo json_encode([
                     'status' => 'error',
                     'message' => 'File size exceeds limit.'
                 ]);
-                exit; // Terminate script execution
+                exit;
             }
     
-            // Allow certain file formats
             $allowedTypes = ['pdf', 'gif', 'jpg', 'jpeg', 'png'];
             if (!in_array($fileExtension, $allowedTypes)) {
                 echo json_encode([
                     'status' => 'error',
                     'message' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedTypes)
                 ]);
-                exit; // Terminate script execution
+                exit;
             }
     
-            // Move uploaded file to target directory with new filename
             if (!move_uploaded_file($attendanceProof['tmp_name'], $targetFile)) {
                 echo json_encode([
                     'status' => 'error',
                     'message' => 'Failed to move uploaded file.'
                 ]);
-                exit; // Terminate script execution
+                exit;
             }
     
-            // Check if attendance already exists with pending status
             $sqlCheck = "SELECT id, status FROM attendance_proof WHERE event_id = ? AND uploaded_by = ?";
             $stmtCheck = $this->pdo->prepare($sqlCheck);
             $stmtCheck->execute([$eventId, $uploadedBy]);
             $existingAttendance = $stmtCheck->fetch(PDO::FETCH_ASSOC);
     
             if ($existingAttendance && $existingAttendance['status'] === 'pending') {
-                // Update existing pending attendance
-                $sqlUpdate = "UPDATE attendance_proof SET event_name = ?, feedback = ?, attendance_proof = ?, status = ? WHERE id = ?";
+                $sqlUpdate = "UPDATE attendance_proof SET event_name = ?, feedback = ?, attendance_proof = ?, status = ?, user_id = ? WHERE id = ?";
                 $stmtUpdate = $this->pdo->prepare($sqlUpdate);
-                $stmtUpdate->execute([$eventName, $feedback, $targetFile, $status, $existingAttendance['id']]);
+                $stmtUpdate->execute([$eventName, $feedback, $targetFile, $status, $userId, $existingAttendance['id']]);
             } else {
-                // Insert new attendance data
-                $sqlInsert= "INSERT INTO attendance_proof (event_id, event_name, feedback, uploaded_by, attendance_proof, status) 
-                            VALUES (?, ?, ?, ?, ?, ?)";
+                $sqlInsert = "INSERT INTO attendance_proof (event_id, event_name, feedback, uploaded_by, attendance_proof, status, user_id) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?)";
                 $stmtInsert = $this->pdo->prepare($sqlInsert);
-                $stmtInsert->execute([$eventId, $eventName, $feedback, $uploadedBy, $targetFile, $status]);
+                $stmtInsert->execute([$eventId, $eventName, $feedback, $uploadedBy, $targetFile, $status, $userId]);
             }
     
-            // Output JSON response for success
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Attendance submitted successfully.'
             ]);
-    
-            exit; // Ensure script termination after successful submission
+            exit;
         } else {
-            // Handle invalid request method
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Invalid request method. Only POST requests are allowed.'
             ]);
-            exit; // Terminate script execution
+            exit;
         }
-    }
-    
+    }    
 }

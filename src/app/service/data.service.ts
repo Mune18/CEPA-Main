@@ -197,6 +197,14 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}getuseradddetails/${userId}`);
   }
 
+  getSubmittedData(eventId: string, userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getsubmission?event_id=${eventId}&user_id=${userId}`);
+  }
+
+  getFullImageUrl(imagePath: string): string {
+    return `${this.apiUrl}${imagePath}`;
+  }
+
   getEventsJoined(userId: number): Observable<Event[]> {
     return this.http.get<any[]>(`${this.apiUrl}geteventsjoined/${userId}`).pipe(
       map((response: any) => {
