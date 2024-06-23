@@ -36,9 +36,11 @@ export const routes: Routes = [
     canActivate: [UserAuthGuard]
   },
   {
-    path: 'viewsubmission',
+  
+    path: 'viewsubmission/:eventId',
     component: ViewsubmissionComponent,
-  },
+    canActivate: [AdminAuthGuard],
+  },    
   {
     path: '',
     redirectTo: 'user/home',

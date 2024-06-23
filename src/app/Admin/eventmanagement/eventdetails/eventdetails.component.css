@@ -1,3 +1,12 @@
+/* eventdetails.component.css */
+
+.container1 {
+    height: 80vh; /* Fixed height of 80% of viewport height */
+    padding: 12px 14px 0 12px; /* Padding adjustment */
+    border-radius: 20px; /* Rounded corners */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds fixed height */
+}
+
 header {
     width: auto;
     padding: 1.5em;
@@ -16,18 +25,12 @@ header {
     margin-bottom: 20px;
 }
 
-body {
-    height: 80vh; 
-    padding: 12px 14px 0 12px;
-    border-radius: 20px;
-    
-}
 .event-name {
-    font-size: 24px; 
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-.Register {
+.view-submission {
     height: 50px;
     width: 150px;
     background-color: #007bff;
@@ -37,23 +40,37 @@ body {
     border-radius: 9px;
     cursor: pointer;
     margin: 10px;
-    float: right; /* Adjusted margin-left to float */
-    margin-top: 10px; /* Changed margin-top value */
+    float: right;
+    margin-top: 10px;
 }
 
-.Register:hover {
+.view-submission:hover {
     background-color: #0056b3;
 }
-.description{
+
+.description {
     margin: 20px;
 }
-.update{
+
+.qrcode {
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+}
+
+.registrant-container, .attendees-container {
+    max-height: 300px; /* Adjusted fixed height for containers */
+    overflow-y: auto;
+}
+
+.update {
     padding-left: 5px;
     padding-top: 10px;
     padding-bottom: 7px;
     font-size: 24px;
 }
-.fieldname{
+
+.fieldname {
     display: block;
     font-weight: bold;
     width: auto;
@@ -78,6 +95,7 @@ textarea {
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
+
 .update-button {
     background-color: rgb(48, 212, 48);
     color: white;
@@ -92,6 +110,7 @@ textarea {
     background-color: rgb(40, 168, 40);
     /* You can adjust other styles as needed */
 }
+
 .delete-button {
     background-color: #cc0000;
     border: none;
@@ -109,7 +128,8 @@ textarea {
 .delete-button:hover {
     background-color: #990000;
 }
-.others{
+
+.others {
     font-weight: bold;
     display: block;
 }
@@ -139,7 +159,7 @@ textarea {
         margin-bottom: 10px; /* Reduce margin bottom */
     }
 
-    .Register {
+    .Register, .Register_Event {
         width: 120px; /* Reduce button width */
         margin: 5px; /* Reduce button margin */
     }

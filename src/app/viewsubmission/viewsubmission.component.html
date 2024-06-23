@@ -1,53 +1,51 @@
 <body>
     <div class="navbar">
         <div class="nav-left">
-            <button mat-button>
-                
-                Back
-            </button>
+            <button mat-button (click)="goBack()">Back</button>
         </div>
         <div class="nav-right">
-            <button mat-button>
-                <i class="fa-solid fa-arrow-left"></i>
-                Previous
+            <button mat-button (click)="showPrevious()" [disabled]="currentIndex === 0">
+            <i class="fa-solid fa-arrow-left"></i> Previous
             </button>
-            <button mat-button>
-                
-                Next <i class="fa-solid fa-arrow-right"></i>
-                
+            <button mat-button (click)="showNext()" [disabled]="currentIndex === submissions.length - 1">
+            Next <i class="fa-solid fa-arrow-right"></i>
             </button>
         </div>
     </div>
+    
+        <div class="content-container" *ngIf="submissions.length > 0">
+            <div class="cont">
+                <div class="content-box">
+                    <img [src]="getImageUrl()" alt="Attendance Proof">
+                </div>
+        
+                <div class="container blue-container">
+                    <p>Feedback:</p>
+                    <p><strong>{{ submissions[currentIndex].feedback }}</strong></p>
+                </div>
+            </div>
 
-    <div class="content-container">
-        
-        <div class="content-box ">
-            <h1>Oops! Something went wrong.</h1>
-            <p>Content type is not supported.</p>
-            <p><a href="#">By clicking here, you can download the file.</a></p>
-        </div>
-        
         <div class="right-corner-info mat-elevation-z2">
-            <h2>Ar-jay San Jose</h2>
-            <h2>Date Submitted: June 28, 2024 12:00 AM</h2>
+            <img src="/assets/images/CEPAlogo2-removebg-preview.png" alt="CEPA Logo" class="logo">
+            <h1 class="eventname">{{ submissions[currentIndex].event_name }}</h1>
+            <h2>Submitted By: {{ submissions[currentIndex].uploaded_by }}</h2>
+            <h2>Date Submitted: {{ submissions[currentIndex].formattedUploadTimestamp }}</h2>
 
-            <mat-form-field appearance="outline">
-                <mat-label>Status</mat-label>
-                <mat-select id="status-dropdown">
-                    <mat-option value="reject">Reject</mat-option>
-                    <mat-option value="accept">Accept</mat-option>
-                    <mat-option value="pending">Pending</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <h3 class="message">Message</h3>
-            <textarea class="textarea"></textarea>
-            <h3 class="save-tip">Tip: Please leave a message when rejecting.</h3>
-            <button mat-raised-button color="primary">Save</button>
-        </div>
-        <div class="container blue-container">
-            <p>Feedback
-            </p>
-        </div>
-    </div>
+        <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus" id="status-dropdown">
+                <mat-option value="Reject">Reject</mat-option>
+                <mat-option value="Approved">Approve</mat-option>
+                <mat-option value="Pending">Pending</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-</body>
+        <h3 class="message">Message</h3>
+        <textarea [(ngModel)]="message" class="textarea"></textarea>
+        <h3 class="save-tip" *ngIf="selectedStatus === 'reject'">Tip: Please leave a message when rejecting.</h3>
+        <button mat-raised-button color="primary" (click)="updateStatus()">Save</button>
+        </div>
+        
+
+    </div>      
+</body>   

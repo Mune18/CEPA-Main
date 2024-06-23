@@ -622,7 +622,7 @@ public function sendEmail($data, $template = 'default') {
             $stmtCheck->execute([$eventId, $uploadedBy]);
             $existingAttendance = $stmtCheck->fetch(PDO::FETCH_ASSOC);
     
-            if ($existingAttendance && $existingAttendance['status'] === 'pending') {
+            if ($existingAttendance && $existingAttendance['status'] === 'Pending') {
                 $sqlUpdate = "UPDATE attendance_proof SET event_name = ?, feedback = ?, attendance_proof = ?, status = ?, user_id = ? WHERE id = ?";
                 $stmtUpdate = $this->pdo->prepare($sqlUpdate);
                 $stmtUpdate->execute([$eventName, $feedback, $targetFile, $status, $userId, $existingAttendance['id']]);
@@ -646,4 +646,44 @@ public function sendEmail($data, $template = 'default') {
             exit;
         }
     }    
+    public function update_submission($submissionId, $status, $message) {
+        try {
+            // Check if the message is required and provided
+            if ($status === 'Reject' && empty($message)) {
+                return [
+                    "status" => "error",
+                    "message" => "Message is required when rejecting"
+                ];
+            }
+    
+            // Prepare SQL statement to update status and message for the specified submission ID
+            $sql = "UPDATE attendance_proof SET status = ?, message = ? WHERE id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            
+            // Set message to null if status is accept and message is empty
+            $message = ($status === 'Approved' && empty($message)) ? null : $message;
+    
+            $stmt->execute([$status, $message, $submissionId]);
+            
+            // Check if the update was successful
+            if ($stmt->rowCount() > 0) {
+                return [
+                    "status" => "success",
+                    "message" => "Submission status updated successfully"
+                ];
+            } else {
+                return [
+                    "status" => "error",
+                    "message" => "Failed to update submission status or no changes made"
+                ];
+            }
+        } catch(PDOException $e) {
+            // Handle any potential errors
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+    
 }

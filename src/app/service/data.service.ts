@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class DataService {
   // private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
   private apiUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
+  private apiImageUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private userInfoSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null); // Add user info subject
 
@@ -188,6 +189,12 @@ export class DataService {
     );
   }
 
+  getSubmissions(eventId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}getsubmissions/${eventId}`).pipe(
+      catchError(this.handleError)
+    );
+  }  
+
   //Fetch user Details
   getUserDetails(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}getuserdetails/${userId}`);
@@ -202,7 +209,7 @@ export class DataService {
   }
 
   getFullImageUrl(imagePath: string): string {
-    return `${this.apiUrl}${imagePath}`;
+    return `${this.apiImageUrl}${imagePath}`;
   }
 
   getEventsJoined(userId: number): Observable<Event[]> {
@@ -244,6 +251,29 @@ export class DataService {
   getUserInfo(): Observable<any> {
     return this.userInfoSubject.asObservable();
   }
+
+  //Update User Submission Status
+  updateStatus(submissionId: number, status: string, message: string): Observable<any> {
+    const payload = { status, message };
+    return this.http.post<any>(`${this.apiUrl}update_status/${submissionId}`, payload).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getAttendeesForEvent(eventId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getattendeeslist/${eventId}`);
+  }
+
+  getAttendanceProofData(eventId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getattendanceproofdata/${eventId}`);
+}
+
+getRegistrantsForEvent(eventId: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrl}events/${eventId}/registrants`).pipe(
+    catchError(this.handleError)
+  );
+}
+
 
   // Error Handling
   private handleError(error: HttpErrorResponse) {

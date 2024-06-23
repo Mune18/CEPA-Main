@@ -1,3 +1,10 @@
+.container1 {
+    height: 80vh; /* Fixed height of 80% of viewport height */
+    padding: 12px 14px 0 12px; /* Padding adjustment */
+    border-radius: 20px; /* Rounded corners */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds fixed height */
+}
+
 header {
     width: auto;
     padding: 1.5em;
@@ -16,18 +23,12 @@ header {
     margin-bottom: 20px;
 }
 
-body {
-    height: 80vh; 
-    padding: 12px 14px 0 12px;
-    border-radius: 20px;
-}
-
 .event-name {
-    font-size: 24px; 
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-.Register {
+.Register, .Register_Event {
     height: 50px;
     width: 150px;
     background-color: #007bff;
@@ -41,26 +42,7 @@ body {
     margin-top: 10px;
 }
 
-.Register:hover {
-    background-color: #0056b3;
-}
-
-.Register_Event {
-    height: 50px;
-    width: 150px;
-    background-color: #007bff;
-    box-shadow: 5px 6px 7px 1px #afadad;
-    color: #fff;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-    margin: 10px;
-    float: right;
-    margin-top: 10px;
-    bottom: 0px;
-}
-
-.Register_Event:hover {
+.Register:hover, .Register_Event:hover {
     background-color: #0056b3;
 }
 
@@ -74,8 +56,8 @@ body {
     height: fit-content;
 }
 
-.registrant-container {
-    max-height: 400px; /* Adjust height as needed */
+.registrant-container, .attendees-container {
+    max-height: 300px; /* Adjusted fixed height for containers */
     overflow-y: auto;
 }
 
@@ -98,7 +80,7 @@ body {
         margin-bottom: 10px;
     }
 
-    .Register {
+    .Register, .Register_Event {
         width: 120px;
         margin: 5px;
     }

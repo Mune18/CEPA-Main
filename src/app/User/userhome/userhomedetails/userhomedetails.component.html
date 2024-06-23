@@ -1,53 +1,65 @@
-<body>
-    <div class="container1">
-        <header>
-            <p class="event-name">{{ data.event_name }}</p>
-            <p><strong>Event Date:</strong> {{ data.event_date }}</p>
-            <p><strong>Location:</strong> {{ data.event_location }}</p>
-            <p><strong>Organizer:</strong> {{ data.organizer }}</p>
-        </header>
-        <mat-tab-group>
-            <mat-tab label="Registrants">
-                <div class="registrant-container">
-                    <div class="registrant">
-                        <mat-table [dataSource]="attendanceData">
-                            <!-- Last Name Column -->
-                            <ng-container matColumnDef="l_name">
-                                <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
-                                <mat-cell *matCellDef="let attendee">{{ attendee.l_name }}</mat-cell>
-                            </ng-container>
-        
-                            <!-- First Name Column -->
-                            <ng-container matColumnDef="f_name">
-                                <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
-                                <mat-cell *matCellDef="let attendee">{{ attendee.f_name }}</mat-cell>
-                            </ng-container>
-        
-                            <!-- Email Column -->
-                            <ng-container matColumnDef="email">
-                                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-                                <mat-cell *matCellDef="let attendee">{{ attendee.email }}</mat-cell>
-                            </ng-container>
-        
-                            <!-- Add more columns if needed -->
-        
-                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                        </mat-table>
-                    </div>
+<div class="container1">
+    <header>
+        <p class="event-name">{{ data.event_name }}</p>
+        <p><strong>Event Date:</strong> {{ data.event_date }}</p>
+        <p><strong>Location:</strong> {{ data.event_location }}</p>
+        <p><strong>Organizer:</strong> {{ data.organizer }}</p>
+    </header>
+    <mat-tab-group>
+        <mat-tab label="Registrants">
+            <div class="registrant-container">
+                <div class="registrant">
+                    <mat-table [dataSource]="attendanceData">
+                        <!-- Last Name Column -->
+                        <ng-container matColumnDef="l_name">
+                            <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.l_name }}</mat-cell>
+                        </ng-container>
+
+                        <!-- First Name Column -->
+                        <ng-container matColumnDef="f_name">
+                            <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.f_name }}</mat-cell>
+                        </ng-container>
+
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.email }}</mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsRegistrants"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsRegistrants;"></mat-row>
+                    </mat-table>
                 </div>
-                <button class="Register_Event" (click)="registerForEvent()">Register</button>
-            </mat-tab>
-            <mat-tab label="Attendees">
-            </mat-tab>
-            <mat-tab label="Attendance">
-                <p class="description"><strong>Description:</strong> {{ data.description }}</p>
-                <br>
-                <div class="qrcode" *ngIf="qrCodeData">
-                    <qrcode [qrdata]="qrCodeData" [width]="200"></qrcode>
+            </div>
+            <button class="Register_Event" (click)="registerForEvent()">Register</button>
+        </mat-tab>
+        <mat-tab label="Attendees">
+            <div class="attendees-container">
+                <div class="attendee">
+                    <mat-table [dataSource]="attendees">
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="uploaded_by">
+                            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.uploaded_by }}</mat-cell>
+                        </ng-container>
+
+                        <!-- Add other columns if needed -->
+
+                        <mat-header-row *matHeaderRowDef="displayedColumnsAttendees"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumnsAttendees;"></mat-row>
+                    </mat-table>
                 </div>
-                <button class="Register" (click)="goToAttendance()">Submit an attendance</button>
-            </mat-tab>
-        </mat-tab-group>
-    </div>
-</body>
+            </div>
+        </mat-tab>
+        <mat-tab label="Attendance">
+            <p class="description"><strong>Description:</strong> {{ data.description }}</p>
+            <br>
+            <div class="qrcode" *ngIf="qrCodeData">
+                <qrcode [qrdata]="qrCodeData" [width]="200"></qrcode>
+            </div>
+            <button class="Register" (click)="goToAttendance()">Submit Attendance</button>
+        </mat-tab>
+    </mat-tab-group>
+</div>

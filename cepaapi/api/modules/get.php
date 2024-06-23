@@ -325,4 +325,64 @@ class Get extends GlobalMethods{
             ];
         }
     }
+
+    public function view_submissions($eventId) {
+        try {
+            // Prepare SQL statement to fetch attendance data for the specified event ID
+            $sql = "SELECT * FROM attendance_proof WHERE event_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$eventId]);
+            
+            // Fetch all attendance records for the specified event ID
+            $attendanceData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Return the fetched attendance data
+            return $attendanceData;
+        } catch(PDOException $e) {
+            // Handle any potential errors
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+
+    public function get_attendees_list($eventId) {
+        try {
+            $sql = "SELECT * FROM attendance_proof WHERE status = 'Approved' AND event_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$eventId]);
+    
+            $attendees = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            return $attendees;
+        } catch (PDOException $e) {
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }
+    
+
+    public function get_attendance_proof_data($eventId) {
+        try {
+            // Prepare SQL statement to fetch attendance proof data for the specified event ID
+            $sql = "SELECT * FROM attendance_proof WHERE event_id = ?";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$eventId]);
+            
+            // Fetch all attendance proof records for the specified event ID
+            $attendanceProofData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Return the fetched attendance proof data
+            return $attendanceProofData;
+        } catch(PDOException $e) {
+            // Handle any potential errors
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }
 }

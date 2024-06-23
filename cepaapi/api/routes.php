@@ -166,6 +166,38 @@
                         http_response_code(400); // Bad request status code
                     }                
                     break;
+
+            case "getsubmissions":
+                if (isset($request[1])) {
+                    $eventId = $request[1];
+                    echo json_encode($get->view_submissions($eventId));
+                } else {
+                    echo "Event ID not provided";
+                    http_response_code(400);
+                }
+                break;
+
+                case "getattendanceproofdata":
+                    if (isset($request[1])) {
+                        $eventId = $request[1];
+                        $attendanceProofData = $get->get_attendance_proof_data($eventId);
+                        echo json_encode($attendanceProofData);
+                    } else {
+                        echo json_encode(["status" => "error", "message" => "Event ID not provided"]);
+                        http_response_code(400);
+                    }
+                    break;
+
+                    case "getattendeeslist":
+                        if (isset($request[1])) {
+                            $eventId = $request[1];
+                            echo json_encode($get->get_attendees_list($eventId));
+                        } else {
+                            echo "Event ID not provided";
+                            http_response_code(400);
+                        }
+                        break;
+
                     
                 default:
                     // Return a 403 response for unsupported requests
@@ -278,6 +310,33 @@
                     case 'registrationforevent': // Handle registration request
                         echo json_encode($post->submit_registration($data)); // Call method to submit registration for event
                         break;
+
+                    case "update_status":
+                        if (isset($request[1])) {
+                            $submissionId = $request[1];
+                            $data = json_decode(file_get_contents('php://input'), true);
+                            $status = $data['status'] ?? null;
+                            $message = $data['message'] ?? null;
+                            
+                            if ($status) {
+                                // Message is required only if status is "reject"
+                                if ($status === 'Reject' && empty($message)) {
+                                    echo json_encode(["status" => "error", "message" => "Message is required when rejecting"]);
+                                    http_response_code(400);
+                                } else {
+                                    // Allow empty message for statuses other than "reject"
+                                    echo json_encode($post->update_submission($submissionId, $status, $message));
+                                }
+                            } else {
+                                echo "Status not provided";
+                                http_response_code(400);
+                            }
+                        } else {
+                            echo "Submission ID not provided";
+                            http_response_code(400);
+                        }
+                        break;
+
 
                 default:
                     // Return a 403 response for unsupported requests
