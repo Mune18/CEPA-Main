@@ -21,7 +21,7 @@ export class AttendanceComponent implements OnInit {
   userInfo: any = {};
   userName: string = '';
   userId: string = '';
-  submittedData: any = {};
+  submittedData: any = [];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -78,6 +78,7 @@ export class AttendanceComponent implements OnInit {
       (response: any) => {
         if (response.status === 'success') {
           this.submittedData = response.data;
+          // console.log('this is the data', this.submittedData);
           this.form.patchValue({
             feedback: this.submittedData.feedback
           });
@@ -118,7 +119,7 @@ export class AttendanceComponent implements OnInit {
     formData.append('event_name', this.eventName);
     formData.append('feedback', this.form.value.feedback);
     formData.append('user_id', this.userId);
-    formData.append('status', 'pending');
+    formData.append('status', 'Pending');
 
     const fileInput = this.fileInput.nativeElement;
     if (fileInput.files.length > 0) {

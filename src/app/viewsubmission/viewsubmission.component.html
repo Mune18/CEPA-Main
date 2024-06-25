@@ -3,7 +3,7 @@
         <div class="nav-left">
             <button mat-button (click)="goBack()">Back</button>
         </div>
-        <div class="nav-right">
+        <div class="nav-right" *ngIf="submissions.length > 0">
             <button mat-button (click)="showPrevious()" [disabled]="currentIndex === 0">
             <i class="fa-solid fa-arrow-left"></i> Previous
             </button>
@@ -13,7 +13,8 @@
         </div>
     </div>
     
-        <div class="content-container" *ngIf="submissions.length > 0">
+    <div *ngIf="submissions.length > 0; else noSubmissions">
+        <div class="content-container">
             <div class="cont">
                 <div class="content-box">
                     <img [src]="getImageUrl()" alt="Attendance Proof">
@@ -25,27 +26,35 @@
                 </div>
             </div>
 
-        <div class="right-corner-info mat-elevation-z2">
-            <img src="/assets/images/CEPAlogo2-removebg-preview.png" alt="CEPA Logo" class="logo">
-            <h1 class="eventname">{{ submissions[currentIndex].event_name }}</h1>
-            <h2>Submitted By: {{ submissions[currentIndex].uploaded_by }}</h2>
-            <h2>Date Submitted: {{ submissions[currentIndex].formattedUploadTimestamp }}</h2>
+            <div class="right-corner-info mat-elevation-z2">
+                <img src="/assets/images/CEPAlogo2-removebg-preview.png" alt="CEPA Logo" class="logo">
+                <h1 class="eventname">{{ submissions[currentIndex].event_name }}</h1>
+                <h2>Submitted By: {{ submissions[currentIndex].uploaded_by }}</h2>
+                <h2>Date Submitted: {{ submissions[currentIndex].formattedUploadTimestamp }}</h2>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Status</mat-label>
-            <mat-select [(ngModel)]="selectedStatus" id="status-dropdown">
-                <mat-option value="Reject">Reject</mat-option>
-                <mat-option value="Approved">Approve</mat-option>
-                <mat-option value="Pending">Pending</mat-option>
-            </mat-select>
-        </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select [(ngModel)]="selectedStatus" id="status-dropdown">
+                        <mat-option value="Reject">Reject</mat-option>
+                        <mat-option value="Approved">Approve</mat-option>
+                        <mat-option value="Pending">Pending</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-        <h3 class="message">Message</h3>
-        <textarea [(ngModel)]="message" class="textarea"></textarea>
-        <h3 class="save-tip" *ngIf="selectedStatus === 'reject'">Tip: Please leave a message when rejecting.</h3>
-        <button mat-raised-button color="primary" (click)="updateStatus()">Save</button>
+                <h3 class="message">Message</h3>
+                <textarea [(ngModel)]="message" class="textarea"></textarea>
+                <h3 class="save-tip" *ngIf="selectedStatus === 'Reject'">Tip: Please leave a message when rejecting.</h3>
+                <button mat-raised-button color="primary" (click)="updateStatus()">Save</button>
+            </div>
         </div>
+    </div>
+    
+    <ng-template #noSubmissions>
+        <div class="no-submissions">
+            <img src="/assets/images/CEPAlogo2-removebg-preview.png" alt="CEPA Logo" class="logo">
         
-
-    </div>      
-</body>   
+            <p>No Submissions Yet</p>
+        
+        </div>
+    </ng-template>
+</body>

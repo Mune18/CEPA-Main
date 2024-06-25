@@ -2,7 +2,9 @@
 // POST Method
 
 require_once "global.php"; 
-require_once 'C:/xampp/htdocs/CEPA-Main/vendor/autoload.php';
+// require_once 'C:/xampp/htdocs/CEPA-Main/vendor/autoload.php';
+require_once "/home/u475125807/domains/itcepacommunity.com/public_html/api/vendor/autoload.php";
+
 
 // Import PHPMailer classes
 use PHPMailer\PHPMailer\PHPMailer;
@@ -540,8 +542,6 @@ public function sendEmail($data, $template = 'default') {
         }
     }
 
-
-
     public function submit_attendance() {
         header('Content-Type: application/json');
     
@@ -617,18 +617,23 @@ public function sendEmail($data, $template = 'default') {
                 exit;
             }
     
-            $sqlCheck = "SELECT id, status FROM attendance_proof WHERE event_id = ? AND uploaded_by = ?";
+            // Check if a record with the same event_id and user_id already exists
+            $sqlCheck = "SELECT id, status FROM attendance_proof WHERE event_id = ? AND user_id = ?";
             $stmtCheck = $this->pdo->prepare($sqlCheck);
-            $stmtCheck->execute([$eventId, $uploadedBy]);
+            $stmtCheck->execute([$eventId, $userId]);
             $existingAttendance = $stmtCheck->fetch(PDO::FETCH_ASSOC);
     
-            if ($existingAttendance && $existingAttendance['status'] === 'Pending') {
-                $sqlUpdate = "UPDATE attendance_proof SET event_name = ?, feedback = ?, attendance_proof = ?, status = ?, user_id = ? WHERE id = ?";
+            if ($existingAttendance) {
+                // Update existing record
+                $sqlUpdate = "UPDATE attendance_proof 
+                            SET event_name = ?, feedback = ?, attendance_proof = ?, status = ?, uploaded_by = ?, upload_timestamp = NOW()
+                            WHERE id = ?";
                 $stmtUpdate = $this->pdo->prepare($sqlUpdate);
-                $stmtUpdate->execute([$eventName, $feedback, $targetFile, $status, $userId, $existingAttendance['id']]);
+                $stmtUpdate->execute([$eventName, $feedback, $targetFile, $status, $uploadedBy, $existingAttendance['id']]);
             } else {
-                $sqlInsert = "INSERT INTO attendance_proof (event_id, event_name, feedback, uploaded_by, attendance_proof, status, user_id) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+                // Insert new record
+                $sqlInsert = "INSERT INTO attendance_proof (event_id, event_name, feedback, uploaded_by, attendance_proof, status, user_id, upload_timestamp) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
                 $stmtInsert = $this->pdo->prepare($sqlInsert);
                 $stmtInsert->execute([$eventId, $eventName, $feedback, $uploadedBy, $targetFile, $status, $userId]);
             }
@@ -645,7 +650,8 @@ public function sendEmail($data, $template = 'default') {
             ]);
             exit;
         }
-    }    
+    }   
+    
     public function update_submission($submissionId, $status, $message) {
         try {
             // Check if the message is required and provided
