@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { QRCodeModule } from 'angularx-qrcode';
 import { CommonModule } from '@angular/common';
 import { QRCodeService } from '../../../service/qr-code.service';
@@ -11,13 +11,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DateValidator } from '../../../service/date-validator.service';
 import { DataService } from '../../../service/data.service';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ParticipantInfoDialogComponent } from '../participant-info-dialog/participant-info-dialog.component';
 
 @Component({
-  selector: 'app-eventdetails',
+  selector: 'app-eventdetails', 
   standalone: true,
   imports: [CommonModule, MatTabsModule, RouterModule, MatTableModule, QRCodeModule, ReactiveFormsModule],
   templateUrl: './eventdetails.component.html',
-  styleUrl: './eventdetails.component.css'
+  styleUrls: ['./eventdetails.component.css']
 })
 export class EventdetailsComponent {
   attendanceData: any[] = [];
@@ -29,6 +31,8 @@ export class EventdetailsComponent {
   updateForm: FormGroup;
   minDate: Date = new Date();
   dataSource: MatTableDataSource<any>; // Add this line
+  displayedColumns: string[] = ['name', 'email', 'gender', 'action'];
+
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -37,7 +41,8 @@ export class EventdetailsComponent {
     private dataService: DataService,
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
-    private qrCodeService: QRCodeService
+    private qrCodeService: QRCodeService,
+    private dialog: MatDialog
   ) {
     this.updateForm = this.formBuilder.group({
       event_name: [data.event_name || '', Validators.required],
@@ -119,6 +124,8 @@ export class EventdetailsComponent {
     }
     }
 
+
+    // Send the updated data
     this.dataService.updateEventDetails(this.data.event_id, updatedEventData).subscribe(
       (response: any) => {
         console.log('Event details updated successfully:', response);
@@ -168,20 +175,33 @@ export class EventdetailsComponent {
   }
   
 
+
+
   deleteEvent() {
     if (confirm('Are you sure you want to delete this event?')) {
-      // Your delete event logic here
+      this.dataService.archiveEvent(this.data.event_id).subscribe(
+        (response: any) => {
+          console.log('Event archived successfully:', response);
+          this.dialogRef.close();
+          window.location.reload();
+        },
+        error => {
+          console.error('Failed to archive event:', error);
+        }
+      );
     }
   }
 
   reloadEvents() {
     this.dataService.getAllEvents().subscribe(
-      (events: any[]) => {},
+      (events: any[]) => { },
       error => {
         console.error('Failed to fetch events:', error);
       }
     );
   }
+
+
 
 
 
@@ -221,4 +241,52 @@ export class EventdetailsComponent {
       console.error('Event ID is undefined or null.');
     }
   } 
+
+
+  deleteUser(attendee: any): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data: { message: 'Are you sure you want to delete this submitted registration?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataService.deleteUserFromEvent(attendee.event_id, attendee.user_id).subscribe({
+          next: (response) => {
+            // console.log(`User deleted: ${response}`);
+            if (response.message) {
+              this.snackBar.open(`Registration deleted successfully: ${response.message}`, 'Close', { duration: 3000 });
+            } else {
+              this.snackBar.open('Registration deleted successfully.', 'Close', { duration: 3000 });
+            }
+            this.fetchAttendanceData();
+          },
+          error: (error) => {
+            console.error('Error deleting user:', error);
+            this.snackBar.open(`Error deleting user: ${error.message}`, 'Close', { duration: 3000 });
+          }
+        });
+      }
+    });
+  }
+
+viewParticipantInfo(attendee: any): void {
+    this.dataService.getParticipantInfo(attendee.user_id).subscribe(
+        (response: any) => {
+            if (response.status === 'success') {
+                this.dialog.open(ParticipantInfoDialogComponent, {
+                    width: '700px',
+                    height: 'auto',
+                    data: response.data
+                });
+            } else {
+                console.error('Error fetching participant info:', response.message);
+            }
+        },
+        error => {
+            console.error('Failed to fetch user info:', error);
+        }
+    );
 }
+}
+  

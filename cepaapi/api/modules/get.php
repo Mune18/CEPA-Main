@@ -298,8 +298,41 @@ class Get extends GlobalMethods{
                 "message" => $e->getMessage()
             ];
         }
-    }      
-
+        
+    }
+    
+    public function get_participant_info($user_id) {
+        try {
+            $sql = "SELECT college_program, phone_number, date_of_birth, place_of_birth, gender, sexual_orientation, gender_identity
+                    FROM user_info 
+                    WHERE user_id = :user_id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            $user_info = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user_info) {
+                return [
+                    "status" => "success",
+                    "data" => $user_info
+                ];
+            } else {
+                return [
+                    "status" => "error",
+                    "message" => "User not found"
+                ];
+            }
+        } catch(PDOException $e) {
+            // Log the error for debugging purposes
+            error_log("PDO Exception: " . $e->getMessage());
+    
+            // Return error response
+            return [
+                "status" => "error",
+                "message" => $e->getMessage()
+            ];
+        }
+    }
     public function get_submission($eventId, $userId) {
         try {
             $sql = "SELECT event_id, event_name, feedback, attendance_proof, status FROM attendance_proof WHERE event_id = ? AND user_id = ?";

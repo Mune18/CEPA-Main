@@ -1,4 +1,35 @@
-/* eventdetails.component.css */
+.responsive-table {
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+}
+
+/* Flex layout for table cells */
+mat-cell, mat-header-cell {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    word-break: break-word;
+    padding: 8px;
+}
+
+/* Ensure email column wraps text */
+mat-cell {
+    white-space: normal;
+}
+
+/* Adjust column widths */
+mat-header-cell, mat-cell {
+    min-width: 150px;
+    max-width: 300px;
+}
+
+/* Specific styles for email column to allow text wrapping */
+mat-cell.email-cell, mat-header-cell.email-cell {
+    flex: 1 1 auto;
+    word-wrap: break-word;
+    min-width: 200px;   
+}
 
 .container1 {
     height: 80vh; /* Fixed height of 80% of viewport height */
@@ -140,6 +171,48 @@ textarea {
     height: fit-content; /* Set the height to fit the content */
 }
 
+/* Styles for the delete button in the table */
+.delete-btn {
+    background-color: #cc0000;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn:hover { 
+    background-color: #990000;
+    transform: scale(1.05);
+}
+
+.view-btn {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.view-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
 @media only screen and (max-width: 690px) {
     header {
         width: auto; /* Adjust width to fill the screen */
@@ -173,3 +246,14 @@ textarea {
         width: 80%; /* Reduce QR code width */
     }
 }
+
+/* eventdetails.component.css */
+
+
+
+
+
+
+
+
+

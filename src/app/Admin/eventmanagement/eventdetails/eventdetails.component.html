@@ -1,81 +1,91 @@
-<div class="container1">
-    <header>
-      <p class="event-name">{{ data.event_name }}</p>
-      <p><strong>Event Date:</strong> {{ data.event_date }}</p>
-      <p><strong>Location:</strong> {{ data.event_location }}</p>
-      <p><strong>Organizer:</strong> {{ data.organizer }}</p>
-    </header>
-    <mat-tab-group>
-      <mat-tab label="Registrants">
-        <div class="registrant-container">
-          <div class="registrant">
-            <mat-table [dataSource]="attendanceData">
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-                <mat-cell *matCellDef="let attendee">{{ attendee.f_name }} {{ attendee.l_name }}</mat-cell>
-              </ng-container>
-  
-              <!-- Email Column -->
-              <ng-container matColumnDef="email">
-                <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-                <mat-cell *matCellDef="let attendee">{{ attendee.email }}</mat-cell>
-              </ng-container>
-  
-              <!-- Gender Column -->
-              <ng-container matColumnDef="gender">
-                <mat-header-cell *matHeaderCellDef>Gender</mat-header-cell>
-                <mat-cell *matCellDef="let attendee">{{ attendee.gender }}</mat-cell>
-              </ng-container>
-  
-              <mat-header-row *matHeaderRowDef="displayedColumnsRegistrants"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumnsRegistrants;"></mat-row>
-            </mat-table>
-          </div>
-        </div>
-      </mat-tab>
-  
-      <mat-tab label="Attendance">
-        <div class="registrant-container">
-    <mat-table [dataSource]="attendees">
-      <!-- Column for uploaded_by with display name "Uploaded By" -->
-      <ng-container matColumnDef="uploaded_by">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let attendee"> {{ attendee.uploaded_by }} </mat-cell>
-      </ng-container>
+<body>
+    <div class="container1">
+        <header>
+            <p class="event-name">{{ data.event_name }}</p>
+            <p><strong>Event Date:</strong> {{ data.event_date }}</p>
+            <p><strong>Location:</strong> {{ data.event_location }}</p>
+            <p><strong>Organizer:</strong> {{ data.organizer }}</p>
+        </header>
+        <mat-tab-group>
+            <mat-tab label="Registrants">
+                <div class="mat-elevation-z8">
+                    <mat-table [dataSource]="attendanceData" class="responsive-table">
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.f_name }} {{ attendee.l_name }}</mat-cell>
+                        </ng-container>
+        
+                        <!-- Email Column -->
+                        <ng-container matColumnDef="email">
+                            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.email }}</mat-cell>
+                        </ng-container>
+        
+                        <!-- Gender Column -->
+                        <ng-container matColumnDef="gender">
+                            <mat-header-cell *matHeaderCellDef>Gender</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">{{ attendee.gender }}</mat-cell>
+                        </ng-container>
+        
+                        <!-- Action Column -->
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                            <mat-cell *matCellDef="let attendee">
+                                <button class="view-btn" (click)="viewParticipantInfo(attendee)">View</button>
+                                <button class="delete-btn" (click)="deleteUser(attendee)">Delete</button>
+                            </mat-cell>
+                        </ng-container>
+        
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+                </div>
+            </mat-tab>
+            <mat-tab label="Attendance">
+              <div class="registrant-container">
+          <mat-table [dataSource]="attendees">
+            <!-- Column for uploaded_by with display name "Uploaded By" -->
+            <ng-container matColumnDef="uploaded_by">
+              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+              <mat-cell *matCellDef="let attendee"> {{ attendee.uploaded_by }} </mat-cell>
+            </ng-container>
+        
+            <!-- Column for status -->
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+              <mat-cell *matCellDef="let attendee"> {{ attendee.status }} </mat-cell>
+            </ng-container>
+        
+            <!-- Header row for attendance -->
+            <mat-header-row *matHeaderRowDef="displayedColumnsAttendance"></mat-header-row>
+            <!-- Data rows for attendance -->
+            <mat-row *matRowDef="let row; columns: displayedColumnsAttendance;"></mat-row>
+          </mat-table>
+              <button class="view-submission" (click)="goViewSubmissions()">View Submission</button>
+            </div>
+            </mat-tab>
+            <form [formGroup]="updateForm">
+                <mat-tab label="Others">
+                    <h1 class="update">Update Event Details</h1>
+                    <label class="fieldname">Event Name:</label>
+                    <input type="text" formControlName="event_name" class="form-control" placeholder="{{ data.event_name }}">
+                    <label class="fieldname">Event Date:</label>
+                    <input type="date" formControlName="event_date" class="form-control" placeholder="{{ data.event_date }}" [min]="minDate">
+                    <label class="fieldname">Event Location:</label>
+                    <input type="text" formControlName="event_location" class="form-control" placeholder="{{ data.event_location }}">
+                    <label class="fieldname">Organizer:</label>
+                    <input type="text" formControlName="organizer" class="form-control" placeholder="{{ data.organizer }}">
+                    <label class="fieldname">Description:</label>
+                    <textarea formControlName="description" class="form-control" placeholder="{{ data.description }}"></textarea>
+                    <button type="submit" class="button primary update-button" (click)="updateEventDetails()">Update</button>
+                    <button type="button" class="delete-button" (click)="deleteEvent()">Archive</button>
+                </mat-tab>
+            </form>
+        </mat-tab-group>
+        
+        
+    </div>
+</body>
 
-      <!-- Column for status -->
-      <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
-        <mat-cell *matCellDef="let attendee"> {{ attendee.status }} </mat-cell>
-      </ng-container>
 
-      <!-- Header row for attendance -->
-      <mat-header-row *matHeaderRowDef="displayedColumnsAttendance"></mat-header-row>
-      <!-- Data rows for attendance -->
-      <mat-row *matRowDef="let row; columns: displayedColumnsAttendance;"></mat-row>
-    </mat-table>
-        <button class="view-submission" (click)="goViewSubmissions()">View Submission</button>
-      </div>
-      </mat-tab>
-  
-      <mat-tab label="Others">
-        <form [formGroup]="updateForm">
-          <h1 class="update">Update Event Details</h1>
-          <label class="fieldname">Event Name:</label>
-          <input type="text" formControlName="event_name" class="form-control" [placeholder]="data.event_name">
-          <label class="fieldname">Event Date:</label>
-          <input type="date" formControlName="event_date" class="form-control" [placeholder]="data.event_date" [min]="minDate | date:'yyyy-MM-dd'">
-          <label class="fieldname">Event Location:</label>
-          <input type="text" formControlName="event_location" class="form-control" [placeholder]="data.event_location">
-          <label class="fieldname">Organizer:</label>
-          <input type="text" formControlName="organizer" class="form-control" [placeholder]="data.organizer">
-          <label class="fieldname">Description:</label>
-          <textarea formControlName="description" class="form-control" [placeholder]="data.description"></textarea>
-          <button type="submit" class="button primary update-button" (click)="updateEventDetails()">Update</button>
-          <button type="button" class="delete-button" (click)="deleteEvent()">Archive</button>
-        </form>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-  

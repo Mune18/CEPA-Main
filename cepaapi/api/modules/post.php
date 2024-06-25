@@ -138,16 +138,17 @@ class Post extends GlobalMethods{
                 $data->phone_number,
                 $data->address
             ]);
-            return $this->sendPayload(null, "success", "Successfully updated participant information.", 200);
+            return $this->sendPayload(null, "success", "Succe   ssfully updated participant information.", 200);
         } catch (\PDOException $e) {
             $errmsg = $e->getMessage();
             return $this->sendPayload(null, "failed", $errmsg, 400);
         }
     }
 
+
     
 // Enter public function below
-public function sendEmail($data, $template = 'default') {
+    public function sendEmail($data, $template = 'default') {
     // Check if $data is null
     if ($data === null) {
         return ['success' => false, 'message' => 'Data is null'];
@@ -264,7 +265,25 @@ public function sendEmail($data, $template = 'default') {
         return ['success' => false, 'message' => 'Failed to send email: ' . $e->getMessage()];
     }
 }
+public function delete_user_from_event($eventId, $userId) {
+    try {
+        $stmt = $this->pdo->prepare("DELETE FROM registrants WHERE event_id = :eventId AND user_id = :userId");
+        $stmt->bindParam(':eventId', $eventId, PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
 
+        if ($stmt->execute()) {
+            if ($stmt->rowCount() > 0) {
+                return ["status" => "success", "message" => "User deleted from event"];
+            } else {
+                return ["status" => "error", "message" => "User not found in event"];
+            }
+        } else {
+            return ["status" => "error", "message" => "Failed to delete user from event"];
+        }
+    } catch (Exception $e) {
+        return ["status" => "error", "message" => $e->getMessage()];
+    }
+}
 
     public function submit_registration($data) {
         // Check if the participant is already registered for the event

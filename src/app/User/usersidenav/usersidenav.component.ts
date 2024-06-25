@@ -67,8 +67,8 @@ export class UsersidenavComponent implements OnDestroy, OnInit {
   }
 
   navigateToAboutUs() {
-    this.selectedNavItem = 'about-us';
-    this.router.navigate(['/user/AboutUs']);
+    this.selectedNavItem = 'aboutus';
+    this.router.navigate(['/user/aboutus']);
   }
 
   redirectToUserLogin() {

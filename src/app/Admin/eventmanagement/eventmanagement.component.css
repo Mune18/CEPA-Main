@@ -1,143 +1,143 @@
-.heading {
-    padding-left: 40px;
-    padding-top: 20px;
-    padding-bottom: 7px;
-    font-weight: bold;
-    font-size: 30px;
-  }
-  
-  hr {
-    align-items: center;
-    margin-left: 40px;
-    margin-right: 40px;
-    display: flex;
-  }
-  
-  .addevent {
-    z-index: 1;
-    padding: 10px 20px;
-    font-size: .9rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 150px;
-    margin-left: 2.6rem;
-    margin-top: 16px;
-    box-shadow: 5px 6px 7px 1px #afadad;
-  }
-  
-  .addevent:hover {
-    background-color: #0056b3;
-  }
-  
-  .container {
-    --gap: 2px; /* Gap between boxes */
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(325px, 1fr)); /* Responsive columns with a minimum size */
-    gap: var(--gap);
-    padding: 12px;
-    width: auto;
-    overflow-y: auto;
-    margin: 30px 0 0 15px;
-    height: 565px;
-  }
-  
-  .mat-card {
-    position: relative;
-    box-shadow: 5px 6px 7px 1px #afadad;
-    border-radius: 20px;
-    max-width: 360px;
-    width: 100%; /* Changed from fixed width to full width */
-    height: 250px; /* Allow height to adjust based on content */
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 25px;
-    box-sizing: border-box;
-    margin: 15px;
-  }
-  
-  
-  .mat-card h1 {
-    text-align-last: left;
-    margin: 0;
-  }
-  
-  .mat-card hr {
-    text-align-last: left;
-    margin: 10px 0;
-  }
-  
-  .mat-card p {
-    text-align-last: left;
-    margin: 5px 0;
-  }
-  
-  .mat-card-actions {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100px;
-    box-shadow: 5px 6px 7px 1px #afadad;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-  }
-  .button:hover{
-    background-color: #0056b3;
-  }
-  .archived-label {
-    position: absolute; /* Position the label absolutely */
-    top: 10px; /* Adjust top position as needed */
-    right: 10px; /* Adjust right position as needed */
-    width: 10px; /* Adjust size as needed */
-    height: 10px; /* Adjust size as needed */
-    border-radius: 50%; /* Make it a circle */
-    text-align: center;
-    line-height: 20px; /* Vertically center the text */
-    font-weight: bold;
-  }
-  
-  .archived-yes {
-    background-color: red;
-  }
-  
-  .archived-no {
-    background-color: green;
-  }
-  
-  @media only screen and (max-width: 600px) {
-    .container {
-      --box-per-row: 1;
-      justify-content: center !important;
-      height: 75vh;
-      margin: 5px 0 0 15px;
+  .heading {
+      padding-left: 40px;
+      padding-top: 20px;
+      padding-bottom: 7px;
+      font-weight: bold;
+      font-size: 30px;
     }
-  
-    .mat-card {
-      max-width: 95%;
-      width: calc(100% + 20%) !important;
-      margin-right: 0;
-      margin-left: 0;
-    }
-    .search-bar{
-      display: flex;
+    
+    hr {
       align-items: center;
-      justify-content: center;
-      margin-right: auto;
-      margin-left: 0;
-      margin-bottom: 10px;
+      margin-left: 40px;
+      margin-right: 40px;
+      display: flex;
+    }
+    
+    .addevent {
+      z-index: 1;
+      padding: 10px 20px;
+      font-size: .9rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 150px;
+      margin-left: 2.6rem;
+      margin-top: 16px;
+      box-shadow: 5px 6px 7px 1px #afadad;
+    }
+    
+    .addevent:hover {
+      background-color: #0056b3;
+    }
+    
+    .container {
+      --gap: 2px; /* Gap between boxes */
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(325px, 1fr)); /* Responsive columns with a minimum size */
+      gap: var(--gap);
+      padding: 12px;
+      width: auto;
+      overflow-y: auto;
+      margin: 30px 0 0 15px;
+      height: 565px;
+    }
+    
+    .mat-card {
+      position: relative;
+      box-shadow: 5px 6px 7px 1px #afadad;
+      border-radius: 20px;
+      max-width: 360px;
+      width: 100%; /* Changed from fixed width to full width */
+      height: 250px; /* Allow height to adjust based on content */
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 25px;
+      box-sizing: border-box;
+      margin: 15px;
+    }
+    
+    
+    .mat-card h1 {
+      text-align-last: left;
+      margin: 0;
+    }
+    
+    .mat-card hr {
+      text-align-last: left;
+      margin: 10px 0;
+    }
+    
+    .mat-card p {
+      text-align-last: left;
+      margin: 5px 0;
+    }
+    
+    .mat-card-actions {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+    }
+    
+    .button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100px;
+      box-shadow: 5px 6px 7px 1px #afadad;
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+    }
+    .button:hover{
+      background-color: #0056b3;
+    }
+    .archived-label {
+      position: absolute; /* Position the label absolutely */
+      top: 10px; /* Adjust top position as needed */
+      right: 10px; /* Adjust right position as needed */
+      width: 10px; /* Adjust size as needed */
+      height: 10px; /* Adjust size as needed */
+      border-radius: 50%; /* Make it a circle */
+      text-align: center;
+      line-height: 20px; /* Vertically center the text */
+      font-weight: bold;
+    }
+    
+    .archived-yes {
+      background-color: red;
+    }
+    
+    .archived-no {
+      background-color: green;
+    }
+    
+    @media only screen and (max-width: 600px) {
+      .container {
+        --box-per-row: 1;
+        justify-content: center !important;
+        height: 75vh;
+        margin: 5px 0 0 15px;
+      }
+    
+      .mat-card {
+        max-width: 95%;
+        width: calc(100% + 20%) !important;
+        margin-right: 0;
+        margin-left: 0;
+      }
+      .search-bar{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: auto;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
   }
-}

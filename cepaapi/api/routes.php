@@ -199,6 +199,18 @@
                         break;
 
                     
+                    case 'getparticipantinfo':
+                        if (isset($request[1])) {
+                            $userId = $request[1];
+                            echo json_encode($get->get_participant_info($userId));
+                        } else {
+                            echo "User ID not provided";
+                            http_response_code(400);
+                        }
+                        break;
+                    
+        
+                    
                 default:
                     // Return a 403 response for unsupported requests
                     echo "This is forbidden";
@@ -350,6 +362,32 @@
             echo "Method not available";
             http_response_code(404);
         break;
-    }
+    
+        case 'DELETE':
+            switch ($request[0]) {
+                case 'deleteuserfromevent':
+                    if (isset($request[1]) && isset($request[2])) {
+                        $eventId = $request[1];
+                        $userId = $request[2];
+                        $result = $post->delete_user_from_event($eventId, $userId);
+                        error_log(json_encode($result)); // Log the response to the server error log
+                        echo json_encode($result); // Return JSON response
+                    } else {
+                        echo json_encode(["status" => "error", "message" => "Event ID or User ID not provided"]);
+                        http_response_code(400);
+                    }
+                    break;
+    
+                default:
+                    echo json_encode(["status" => "error", "message" => "This is forbidden"]);
+                    http_response_code(403);
+                    break;
+            }
+            break;
+    
+
+}
+    
+    
 
 ?>

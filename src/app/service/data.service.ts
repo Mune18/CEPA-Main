@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap,tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  // private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
   private apiUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private apiImageUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -37,7 +36,6 @@ export class DataService {
       catchError(this.handleError)
     );
   }
-  
 
   adminLogin(id: string, password: string): Observable<boolean> {
     return this.http.post<any>(`${this.apiUrl}adminlogin`, { id, password }).pipe(
@@ -98,6 +96,15 @@ export class DataService {
     return this.http.get<any>(`${this.apiUrl}getattendees/${eventId}`);
   }
 
+  deleteUserFromEvent(eventId: number, userId: number): Observable<any> {
+    const url = `${this.apiUrl}/deleteuserfromevent/${eventId}/${userId}`;
+    return this.http.delete(url, { responseType: 'text' }).pipe(
+        // tap((response: string) => console.log('Response:', response)), // Specify response type
+        catchError(this.handleError)
+    );
+  }
+ 
+  
   // EmailService Method
   sendEmail(emailData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}sendemail`, emailData);
@@ -195,7 +202,7 @@ export class DataService {
     );
   }  
 
-  //Fetch user Details
+  // Fetch user Details
   getUserDetails(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}getuserdetails/${userId}`);
   }
@@ -230,7 +237,6 @@ export class DataService {
     );
   }
 
-
   insertUserInfo(userInfo: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}insertuserinfo`, userInfo).pipe(
       catchError(this.handleError)
@@ -243,6 +249,7 @@ export class DataService {
     );
   }
 
+  
   // Methods to handle user info
   setUserInfo(userInfo: any): void {
     this.userInfoSubject.next(userInfo);
@@ -251,6 +258,10 @@ export class DataService {
   getUserInfo(): Observable<any> {
     return this.userInfoSubject.asObservable();
   }
+  getParticipantInfo(userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}getparticipantinfo/${userId}`);
+}
+  
 
   //Update User Submission Status
   updateStatus(submissionId: number, status: string, message: string): Observable<any> {

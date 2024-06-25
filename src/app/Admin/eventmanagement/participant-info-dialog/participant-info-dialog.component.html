@@ -1,0 +1,14 @@
+<div class="dialog" mat-dialog-content>
+    <h1 mat-dialog-title><strong>Participant Information</strong></h1>
+    <p><strong>College Program:</strong> {{ data.college_program }}</p>
+    <p><strong>Phone Number:</strong> {{ data.phone_number }}</p>
+    <p><strong>Date of Birth:</strong> {{ data.date_of_birth }}</p>
+    <p><strong>Place of Birth:</strong> {{ data.place_of_birth }}</p>
+    <p><strong>Gender:</strong> {{ data.gender }}</p>
+    <p><strong>Sexual Orientation:</strong> {{ data.sexual_orientation }}</p>
+    <p><strong>Gender Identity:</strong> {{ data.gender_identity }}</p>
+
+    <div mat-dialog-actions>
+        <button mat-button class="cancel" (click)="close()">Close</button>
+    </div>
+</div>
