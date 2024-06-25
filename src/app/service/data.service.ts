@@ -8,6 +8,10 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class DataService {
+  private apiUrl = 'https://api.itcepacommunity.com/routes.php?request=';
+  private apiImageUrl = 'https://imgapi.itcepacommunity.com/';
+  // private apiUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
+  // private apiImageUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private apiUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private apiImageUrl = 'http://localhost/CEPA-Main/cepaapi/api/';
   private eventsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
@@ -148,17 +152,17 @@ export class DataService {
 
   // HomeService Methods
   getParticipantCount(): Observable<any> {
-    console.log('Fetching participant count...');
+    // console.log('Fetching participant count...');
     return this.http.get<any>(`${this.apiUrl}home_totalParticipants`);
   }
 
   getEventCount(): Observable<any> {
-    console.log('Fetching event count...');
+    // console.log('Fetching event count...');
     return this.http.get<any>(`${this.apiUrl}home_totalEvents`);
   }
 
   getMostParticipatedEvent(): Observable<any> {
-    console.log('Fetching most participated event...');
+    // console.log('Fetching most participated event...');
     return this.http.get<any>(`${this.apiUrl}mostparticipatedevent`);
   }
 
@@ -168,7 +172,7 @@ export class DataService {
   }
 
   getSearchParticipant(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/search?query=${query}`);
+    return this.http.get<any[]>(`${this.apiUrl}search?query=${query}`);
   }
 
   editParticipant(participant: any): Observable<any> {
@@ -180,7 +184,7 @@ export class DataService {
   }
 
   updateParticipantDetails(participantId: number, participantData: any): Observable<any> {
-    console.log('Updating participant with ID:', participantId);
+    // console.log('Updating participant with ID:', participantId);
     return this.http.post<any>(`${this.apiUrl}update_participant/${participantId}`, participantData);
   }
 
@@ -212,12 +216,13 @@ export class DataService {
   }
 
   getSubmittedData(eventId: string, userId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}getsubmission?event_id=${eventId}&user_id=${userId}`);
+    return this.http.get<any>(`${this.apiUrl}getsubmission&event_id=${eventId}&user_id=${userId}`);
   }
 
   getFullImageUrl(imagePath: string): string {
     return `${this.apiImageUrl}${imagePath}`;
   }
+  
 
   getEventsJoined(userId: number): Observable<Event[]> {
     return this.http.get<any[]>(`${this.apiUrl}geteventsjoined/${userId}`).pipe(
@@ -244,7 +249,7 @@ export class DataService {
   }
 
   sendUserInfo(userInfoToSend: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/registrationforevent`, userInfoToSend).pipe(
+    return this.http.post<any>(`${this.apiUrl}registrationforevent`, userInfoToSend).pipe(
       catchError(this.handleError)
     );
   }

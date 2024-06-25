@@ -65,7 +65,7 @@ export class EventdetailsComponent {
     this.dataService.getAttendanceForEvent(this.data.event_id).subscribe(
         (response: any) => {
             this.attendanceData = response;
-            console.log('Attendance Data:', this.attendanceData); // Add this line
+            // console.log('Attendance Data:', this.attendanceData); // Add this line
         },
         error => {
             console.error('Failed to fetch attendance data:', error);

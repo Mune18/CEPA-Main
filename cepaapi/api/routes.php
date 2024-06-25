@@ -21,7 +21,7 @@
     header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization');
 
     // Set Content-Type header to application/json for all responses
-    // header('Content-Type: application/json');
+    header('Content-Type: application/json');
     
     // Handle preflight requests
     if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {

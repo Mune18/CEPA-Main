@@ -1,6 +1,6 @@
 /* Global styles */
 body {
-    overflow: auto; /* Example of global style */
+    overflow: auto;
     background-color: #e4e9f7;
     margin: 0;
     height: 100vh;
@@ -47,18 +47,18 @@ body {
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    justify-content: center; /* Center aligns content horizontally */
-    align-items: center; /* Center aligns content vertically */
-    overflow: hidden; /* Ensures images don't overflow the box */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     margin: auto;
     margin-bottom: 1rem;
 }
 
 .content-box img {
-    max-width: 100%; /* Ensures image doesn't exceed container's width */
-    height: auto; /* Maintains aspect ratio */
-    display: block; /* Removes default inline behavior */
-    margin: 0 auto; /* Centers image horizontally */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .right-corner-info {
@@ -77,11 +77,11 @@ body {
 }
 
 .right-corner-info h2:first-child {
-    margin-top: 10px; /* Top margin for the first heading */
+    margin-top: 10px;
 }
 
 .right-corner-info h2:last-child {
-    margin-bottom: 10px; /* Bottom margin for the last heading */
+    margin-bottom: 10px;
 }
 
 .right-corner-info mat-form-field {
@@ -107,7 +107,7 @@ body {
 
 .right-corner-info button {
     margin-top: 4.5rem;
-    width: 100%; /* Full width button */
+    width: 100%;
 }
 
 .textarea {
@@ -136,6 +136,35 @@ body {
     margin: 0 auto 1.5rem auto;
     width: 180px;
     height: auto;
+}
+
+/* No submissions message styles */
+.no-submissions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    font-size: 2rem;
+    color: #2c3e50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 1.5s ease-in-out;
+    text-align: center;
+}
+
+.no-submissions img {
+    margin-bottom: 20px;
+    width: 180px; /* Adjust the size of the logo if necessary */
+    height: auto;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Media queries for responsiveness */
@@ -175,5 +204,8 @@ body {
     .navbar button {
         font-size: 14px;
     }
-}
 
+    .no-submissions {
+        font-size: 1.5rem;
+    }
+}

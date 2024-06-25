@@ -2,49 +2,58 @@ body {
   background-color: aliceblue;
   margin: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end; /* Align container to the right */
   align-items: center;
   height: 100vh;
-  /* background-image: url('/assets/images/CEPAlogo2-removebg-preview.png');
-  background-size: 300px;
-  background-position: top;
-  background-repeat: no-repeat;
-  background-attachment: fixed; */
   font-family: 'Arial', sans-serif;
 }
 
 .container {
   position: relative;
-  max-width: 500px;
-  width: 100%;
-  margin: 20px;
+  width: 500px;
+  margin: 20px 70px 20px 40px; /* Adjust margin to create space */
   padding: 30px;
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
-.container img {
-  left: 50%; 
-  width: 180px;
+.container form img {
+  max-width: 100%;
   height: auto;
 }
 
-h2 {
-  text-align: center;
-  margin-top: 20px;
+.container img {
+  left: 50%; 
+  width: 100%;
+  height: auto;
+}
+
+
+.container.left-container {
+  height: 730px;
+  width: 1100px; /* Adjust width as needed */
+  margin: 20px 70px 20px 40px; /* Adjust margin to create space */
+}
+
+
+.container img.logo {
+  width: 180px;
+  height: auto;
+}
+.title{ 
+  margin-right: 900px;
+
+}
+
+h2, h3 {
   font-size: 24px;
   color: #333;
 }
 
-
 h3 {
-  text-align: center;
-  margin-bottom: 20px;
   font-size: 28px;
-  color: #333;
-  margin:  0 0 35px 0;
+  margin-bottom: 20px;
 }
 
 form {
@@ -58,26 +67,22 @@ label {
   color: #555;
 }
 
-input[type="text"],
-input[type="email"] {
+textarea, input[type="file"] {
   width: 100%;
   padding: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
-  margin-bottom: 15px;
-  font-size: 16px;
-  color: #333;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus {
+textarea:focus, input[type="file"]:focus {
   border-color: #4070f4;
   outline: none;
 }
 
 button {
-  display: inline-block;
   width: 100%;
   padding: 10px;
   margin-top: 20px;
@@ -100,9 +105,6 @@ button:disabled {
 }
 
 .btn-secondary {
-  display: inline-block;
-  width: 100%;
-  padding: 10px;
   margin-top: 10px;
   background-color: #4070f4;
   color: white;
@@ -117,7 +119,6 @@ button:disabled {
   background-color: #3057d1;
 }
 
-.form-control{
-  width: 100%;
+.form-control {
   height: 250px;
 }
